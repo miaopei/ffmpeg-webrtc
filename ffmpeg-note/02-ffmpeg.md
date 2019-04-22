@@ -479,6 +479,85 @@ avcodec_free_context();
 
 ### 4.2 FFmpeg H264 编码
 
+H264编码流程：
+
+- 查找编码器（avcodec_find_encoder_by_name）
+- 设置参数，打开编码器（avcondec_open2）
+- 编码（avcondec_encode_video2）
+
+### 4.3 视频转图片
+
+TODO
+
+### 4.4 FFmpeg AAC 编码
+
+- 编码流程与视频相同
+- 编码函数 avcodec_encodec_audio2
+
+## 5. SDL 介绍
+
+> [SDL 官网]([http://www.libsdl.org](http://www.libsdl.org/))
+
+- SDL（Simple DirectMedia Layer） 是一套[开放源代码](https://zh.wikipedia.org/wiki/%E9%96%8B%E6%94%BE%E5%8E%9F%E5%A7%8B%E7%A2%BC)的[跨平台](https://zh.wikipedia.org/wiki/%E8%B7%A8%E5%B9%B3%E5%8F%B0)[多媒体](https://zh.wikipedia.org/wiki/%E5%A4%9A%E5%AA%92%E9%AB%94)开发[库](https://zh.wikipedia.org/wiki/%E5%87%BD%E5%BC%8F%E5%BA%AB)
+- 由 C 语言实现的跨平台的媒体开源库
+- 多用于开发游戏、模拟器、媒体播放器等多媒体应用领域
+
+语法与子系统：
+
+SDL将功能分成下列数个子系统（subsystem）：
+
+- **Video（图像）**—图像控制以及线程（thread）和事件管理（event）。
+- **Audio（声音）**—声音控制
+- **Joystick（摇杆）**—游戏摇杆控制
+- **CD-ROM（光盘驱动器）**—光盘媒体控制
+- **Window Management（视窗管理）**－与视窗程序设计集成
+- **Event（事件驱动）**－处理事件驱动
+
+以下是一支用C语言写成、非常简单的SDL示例：
+
+```c
+// Headers
+#include "SDL.h"
+
+// Main function
+int main(int argc, char* argv[])
+{
+    // Initialize SDL
+    if(SDL_Init(SDL_INIT_EVERYTHING) == -1)
+        return(1);
+
+    // Delay 2 seconds
+    SDL_Delay(2000);
+
+    // Quit SDL
+    SDL_Quit();
+
+    // Return
+    return 0;
+}
+```
+
+上述程序会加载所有SDL子系统（出错则退出程序），然后暂停两秒，最后关闭SDL并退出程序。
+
+### 5.1 SDL 编译与安装
+
+- 下载 SDL 源码
+- 生成Makefile configure --prefix=/usr/local
+- 安装 sudo make -j 8 && make install
+
+### 5.2 使用 SDL 基本步骤
+
+- 添加头文件 #include <SDL.h>
+- 初始化 SDL
+- 退出 SDL
+
+SDL 渲染窗口：
+
+```c
+SDL_Init() / SDL_Quit();
+SDL_CreateWindow() / SDL_DestoryWindow();
+SDL_CreateRender();  // 创建渲染器
+```
 
 
 
@@ -491,45 +570,6 @@ avcodec_free_context();
 
 
 
-
-
-
-
-
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
 
 <img src="_asset/">
 

@@ -591,6 +591,69 @@ SDL_WaitEvent(); // 常用的方式
 SDL_WaitEventTimeout();
 ```
 
+### 5.4 文理渲染
+
+SDL 渲染基本原理：
+
+<img src="_asset/SDL渲染基本原理.png">
+
+SDL 文理相关 API：
+
+```c
+SDL_CreateTexture();
+- format: YUV, RGB
+- access: Texture 类型， Target， Stream
+
+SDL_DestroyTexture();
+```
+
+SDL 渲染相关 API：
+
+```c
+SDL_SetRenderTarget();
+SDL_RenderClear();
+SDL_RenderCopy();
+SDL_RenderPresent();
+```
+
+### 5.5 [实战] YUV 视频播放器
+
+创建线程：
+
+```c
+SDL_CreateThread();
+- fn: 线程执行函数
+- name: 线程名
+- data: 执行函数参数
+```
+
+SDL 更新文理：
+
+```c 
+SDL_UpdateTexture();
+SDL_UpdateYUVTexture();
+```
+
+### 5.6 SDL 播放音频
+
+播放音频基本流程：
+
+<img src="_asset/播放音频基本流程.png">
+
+播放音频的基本原则：
+
+- 声卡向你要数据而不是你主动推给声卡
+- 数据的多少由音频参数决定的
+
+SDL 音频 API：
+
+```c
+SDL_OpenAudio() / SDL_CloseAudio();
+SDL_PauseAudio();
+SDL_MixAudio();
+```
+
+### 5.7 实现 PCM 播放器
 
 
 
@@ -617,9 +680,6 @@ SDL_WaitEventTimeout();
 
 
 
-<img src="_asset/">
-
-<img src="_asset/">
 
 <img src="_asset/">
 

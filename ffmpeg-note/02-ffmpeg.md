@@ -559,6 +559,52 @@ SDL_CreateWindow() / SDL_DestoryWindow();
 SDL_CreateRender();  // 创建渲染器
 ```
 
+```shell
+$ clang -g -o first_sdl first_sdl.c `pkg-config --libs sdl2`
+```
+
+SDL 渲染窗口：
+
+```c
+SDL_CreateRender() / SDL_DestoryRenderer();
+SDL_RenderClear();
+SDL_RenderPresent();
+```
+
+### 5.3 SDL 事件基本原理
+
+- SDL 将所有的事件都存放在一个队列中
+- 所有对事件的操作，其实就是队列的操作
+
+SDL 事件种类：
+
+- SDL_WindowEvent：窗口事件
+- SDL_KeyboardEvent：键盘事件
+- SDL_MouseMotionEvent：鼠标事件
+- 自定义事件
+
+SDL 事件处理：
+
+```c
+SDL_PollEvent(); // 轮询检测
+SDL_WaitEvent(); // 常用的方式
+SDL_WaitEventTimeout();
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

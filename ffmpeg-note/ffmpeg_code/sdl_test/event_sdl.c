@@ -10,8 +10,11 @@
 
 int main(int argc, char *argv[])
 {
+    int quit = 1;
+
     SDL_Window *window = NULL;
     SDL_Renderer *render = NULL;
+    SDL_Event event;
 
     SDL_Init(SDL_INIT_VIDEO);
 
@@ -38,8 +41,18 @@ int main(int argc, char *argv[])
 
     SDL_RenderPresent(render);
 
-    SDL_Delay(30000);
+    do {
+        SDL_WaitEvent(&event);     
+        switch(event.type) {
+        case SDL_QUIT:
+            quit = 0;
+            break;
+        default:
+            SDL_Log("Event type is %d", event.type);
+        }
+    } while(quit);
 
+    // SDL_Delay(30000);
     
 __DWINDOW:
     SDL_DestroyWindow(window);

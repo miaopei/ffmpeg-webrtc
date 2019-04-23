@@ -665,9 +665,77 @@ TODO
 - 通过 SDL 进行渲染
 
 ```shell
-$ clang -g -o player2 player2.c `pkg-config --cflags --libs sdl2 libavformat libavutil libswscale libavcodec`
+$ clang -g -o player2 player2.c `pkg-config --cflags --libs sdl2 libavformat libavutil libswscale libavcodec libswresample`
 ```
 
+最简单的播放器之二：
+
+- 可以同时播放音频与视频
+- 使用队列存放音频包
+
+### 6.1 多线程与锁
+
+为什么要用多线程：
+
+- 多线程的好处
+- 多线程带来的问题
+
+线程的互斥与同步：
+
+- 互斥
+
+- 同步
+
+  大的任务分为很多小任务通过信号协调
+
+锁与信号量：
+
+- 锁的种类
+- 通过信号进行同步
+
+锁的中种类：
+
+- 读写锁
+- 自旋锁
+- 可重入锁
+
+SDL 线程的创建：
+
+```c
+SDL_CreateThread();
+SDL_WaitThread();
+```
+
+SDL 锁：
+
+```c
+SDL_CreateMutex() / SDL_DestroyMutex();  // 创建互斥量
+SDL_LockMutex() / SDL_UnlockMutex();	 // 锁互斥量于解锁互斥量
+```
+
+SDL 条件变量：
+
+```c
+SDL_CreateCond() / SDL_DestroyCond();
+SDL_CondWait() / SDL_CondSignal();
+```
+
+### 6.2 锁与条件变量的使用
+
+TODO
+
+### 6.3 播放器线程模型
+
+<img src="_asset/播放器线程模型.png">
+
+### 6.4 线程的退出机制
+
+- 主线程接收到退出事件
+- 解复用线程在循环分流时对 quit 进行判断
+- 视频解码线程从视频流队列中取包时对 quit 进行判断
+- 音视解码从音频流队列中取包时对 quit 进行判断
+- 音视循环解码时对 quit 进行判断
+- 在收到信号变量消息时对 quit 进行判断
 
 
 
@@ -694,7 +762,8 @@ $ clang -g -o player2 player2.c `pkg-config --cflags --libs sdl2 libavformat lib
 
 
 
-<img src="_asset/">
+
+
 
 <img src="_asset/">
 

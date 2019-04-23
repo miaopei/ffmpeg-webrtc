@@ -655,6 +655,19 @@ SDL_MixAudio();
 
 ### 5.7 实现 PCM 播放器
 
+TODO
+
+## 6. 最简单的播放器
+
+- 该播放器只实现视频播放
+- 将 FFmpeg 与 SDL 结合到一起
+- 通过 FFmpeg 解码视频数据
+- 通过 SDL 进行渲染
+
+```shell
+$ clang -g -o player2 player2.c `pkg-config --cflags --libs sdl2 libavformat libavutil libswscale libavcodec`
+```
+
 
 
 

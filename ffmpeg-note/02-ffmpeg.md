@@ -737,6 +737,63 @@ TODO
 - 音视循环解码时对 quit 进行判断
 - 在收到信号变量消息时对 quit 进行判断
 
+## 6.5 音视频同步
+
+时间戳：
+
+- PTS：Presentation timestamp  渲染时间戳
+- DTS：Decoding timestamp 解码时间戳
+- I（intra）/ B（bidirectional）/ P（predicted）帧
+
+时间戳顺序：
+
+- 实际帧顺序：I B B P
+- 存放帧顺序：I P B B
+- 解码时间戳：1 4 2 3
+- 展示时间戳：1 2 3 4
+
+从哪儿获得 PTS：
+
+- AVPacket 中的 PTS
+- AVFrame 中的 PTS
+- av_frame_get_best_effort_timestamp()
+
+时间基：
+
+- tbr：帧率
+- tbn：time base of stream 流的时间基
+- tbc：time base of codec 解码的时间基
+
+计算当前帧的 PTS：
+
+- `PTS = PTS * av_q2d(video_stream->time_base)`
+- `av_q2d(AVRotional a){ return a.num / (double)a.den; }`
+
+计算下一帧的 PTS：
+
+- video_clock：预测的下一帧视频的 PTS
+- frame_delay：1/tbr
+- audio_clock：音频当前播放的时间戳
+
+音视频同步方式：
+
+- 视频同步到音频
+- 音频同步到视频
+- 音频和视频都同步到系统时钟  
+
+视频播放的基本思路：
+
+- 一般的做法，展示第一帧视频帧后，获得要显示的下一个视频帧的 PTS，然后设置一个定时器，当定时器超时时后，刷新新的视屏帧，如此反复操作。
+
+## 7. 如何在 Android 下使用 FFmpeg
+
+内容：
+
+- Java 与 C 之间的相互调用
+- Android 下 FFmpeg 的编译
+- Android 下如何使用FFmpeg
+
+第一个 JNI 程序：
 
 
 
@@ -750,16 +807,7 @@ TODO
 
 
 
-
-
-
-
-
-
-
-
-
-
+ 
 
 
 

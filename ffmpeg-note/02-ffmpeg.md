@@ -1,5 +1,9 @@
 # FFmpeg 音视频核心技术
 
+<img src="_asset/FFmpeg音视频架构-01.png">
+
+<img src="_asset/FFmpeg音视频架构-02.png">
+
 ## 1. 学习大纲
 
 **FFmpeg 常用命令**：
@@ -787,6 +791,10 @@ TODO
 
 ## 7. 如何在 Android 下使用 FFmpeg
 
+Android 架构：
+
+<img src="_asset/Android架构.png">
+
 内容：
 
 - Java 与 C 之间的相互调用
@@ -795,6 +803,74 @@ TODO
 
 第一个 JNI 程序：
 
+TODO
+
+JNI 基本概念：
+
+- JNIEnv
+- JavaVM  一个Android APP只有一个 JavaVM， 一个 JavaVM 可以有多个JNIEnv
+- 线程  一个线程对应一个JNIEnv
+
+Java调用C/C++ 方法一：
+
+- 在Java层定义 native 关键字函数
+
+- 方法一：在C/C++层创建
+
+  Java_packname_classname_methodname 函数
+
+Java调用C/C++方法二：
+
+<img src="_asset/java调用c方法二.png">
+
+<img src="_asset/注册Native方法的最佳时机.png">
+
+什么是Signature：
+
+- Java与C/C++ 相互调用时，表式函数参数的描述符
+- 输入参数放在（）内，输出参数放在（）外
+- 多个参数之间顺序存放，且用 “；” 分割
+
+<img src="_asset/原始类型的Signature.png">
+
+<img src="_asset/类的Signature.png">
+
+ <img src="_asset/例子.png">
+
+C/C++ 调用 Java 方法：
+
+- FindClass
+- GetMethodID / GetFieldID
+- NewObject
+- `Call<TYPE>Method / [G/S]et<type>Field`
+
+### 7.1 [实战] Android 下的播放器
+
+TODO
+
+## 8. IOS 下使用 FFmpeg
+
+TODO
+
+## 9. 音视频进阶
+
+- FFmpeg Filter 的使用 
+- FFmpeg 裁剪与优化
+- 视频渲染（OpenGL / Metal）
+- 声音的特效
+- 网络传输
+- Webrtc - 实时互动、直播、P2P音视频传输
+- AR技术
+- OpenCV
+
+行业痛点：
+
+- 回音消除
+- 降噪
+- 视频秒开
+- 多人多视频实时互动
+- PC端/APP/网页实时视频互通
+- 实时互动与大并发负载
 
 
 
@@ -807,17 +883,10 @@ TODO
 
 
 
- 
 
 
 
 
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
 
 <img src="_asset/">
 

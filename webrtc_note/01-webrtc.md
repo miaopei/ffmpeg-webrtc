@@ -20,50 +20,84 @@ WebRTC 愿景：
 
 <img src="_asset/webrtc愿景.png">
 
+学习 WebRTC 的难点：
 
+<img src="_asset/学习WebRTC的难点.png">
+
+学习路线：
+
+<img src="_asset/学习路线.png">
+
+学习内容：
+
+<img src="_asset/学习内容.png">
+
+学习收获：
+
+<img src="_asset/学习收获.png">
+
+WebRTC能做啥：
+
+<img src="_asset/WebRTC能做啥.png">
+
+能学到什么：
+
+<img src="_asset/能学到什么.png">
 
 google webrtc 示例：https://appr.tc/
 
-
-
 ## 2. WebRTC 原理与架构
 
-## 2.1 WebRTC 概述
-
-- 音视频处理 + 即时通讯的开源库
-- 
+WebRTC 整体架构：
 
 
 
 <img src="_asset/webrtc架构.png">
 
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
 
 
+WebRTC 的目录结构图：
+
+<img src="_asset/WebRTC目录结构-01.png">
+
+<img src="_asset/WebRTC目录结构-02.png">
+
+<img src="_asset/WebRTCModules目录-01.png">
+
+<img src="_asset/WebRTCModules目录-02.png">
+
+WebRTC 两个基本概念：轨与流
+
+- Track
+- MediaStream
+
+WebRTC重要类：
+
+- MediaStream
+- RTCPeerConnection
+- RTCDataChannel
+
+PeerConnection调用过程：
+
+<img src="_asset/PeerConnection调用过程.png">
 
 
 
-<img src="_asset/">
+调用时序图：
 
-
+<img src="_asset/调用时序图.png">
 
 > [WebRTC之PeerConnection的建立过程](https://www.cnblogs.com/cther/p/myPeerConnection.html)
 >
 > [WebRTC系列（3）：PeerConnection通信建立流程](<https://www.jianshu.com/p/43957ee18f1a>)
 
-
-
 ## 3. Web服务器原理与Nodejs搭建
 
 
+
+
+
+<img src="_asset/Nodejs事件处理.png">
 
 ## 4. JavaScript 必备知识回顾
 

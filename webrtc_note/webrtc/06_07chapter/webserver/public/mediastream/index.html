@@ -1,0 +1,98 @@
+<html>
+	<head>
+		<title>WebRTC capture video and audio</title>
+
+		<link rel="stylesheet" href="css/main.css"/>
+
+		<style>
+			.none {
+				-webkit-filter: none;	
+			}
+
+			.blur {
+				-webkit-filter: blur(3px);	
+			}
+
+			.grayscale {
+				-webkit-filter: grayscale(1); 	
+			}
+
+			.invert {
+				-webkit-filter: invert(1);	
+			}
+
+			.sepia {
+				-webkit-filter: sepia(1);
+			}
+
+		</style>
+	</head>
+
+	<body>
+		<section>
+		<div>
+			<label>audio Source:</label>
+			<select id="audioSource"></select>
+		</div>
+
+		<div>
+			<label>audio Output:</label>
+			<select id="audioOutput"></select>
+		</div>
+
+		<div>
+			<label>video Source:</label>
+			<select id="videoSource"></select>
+		</div>
+
+		<div>
+			<label>Connect Server:</label>
+			<button id="connect">Connect</button>
+			<label>Room Name: </label>
+			<input type="text" id="room" value="aaa"></input>
+		</div>
+		<div>
+			<button id="leave" disabled>Leave</button>
+		</div>
+		</section>
+		<section>
+		<div>
+			<label>Filter:</label>
+			<select id="filter">
+				<option value="none">None</option>
+				<option value="blur">blur</option>
+				<option value="grayscale">Grayscale</option>
+				<option value="invert">Invert</option>
+				<option value="sepia">sepia</option>
+			</select>
+		</div>
+
+			<!--<audio autoplay controls id='audioplayer'></audio>-->
+		<table>
+			<tr>
+				<td><video autoplay playsinline id="player"></video></td>
+				<td><video playsinline id="recplayer"></video></td>
+				<td><div id='constraints' class='output'></div></td>
+			</tr>
+			<tr>
+				<td><button id="record">Start Record</button></td>
+				<td><button id="recplay" disabled>Play</button></td>
+				<td><button id="download" disabled>Download</button></td>
+			</tr>
+		</table>
+
+		</section>
+		<section>
+		<div>
+			<button id="snapshot">Take snapshot</button>
+		</div>
+		<div>
+			<canvas id="picture"></canvas>
+		</div>
+		</section>
+
+		<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
+		<script src="./js/client.js"></script>
+	</body>
+</html>

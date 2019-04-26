@@ -7,7 +7,7 @@
 #Build armv7 armv7s arm64  
 
 #Download FFmpeg source
-git clone git://source.ffmpeg.org/ffmpeg.git
+#git clone git://source.ffmpeg.org/ffmpeg.git
 
 cd ffmpeg
 

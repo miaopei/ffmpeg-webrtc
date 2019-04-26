@@ -1,0 +1,66 @@
+var isInitiator = false;
+
+
+audioSource = document.querySelector('select#audioSource');
+audioOutput = document.querySelector('select#audioOutput');
+videoSource = document.querySelector('select#videoSource');
+
+window.onload=function(){
+  if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+    console.log("enumerateDevices() not supported.");
+    return;
+  }
+
+  // List cameras and microphones.
+
+  navigator.mediaDevices.enumerateDevices()
+  .then(function(deviceInfos) {
+    deviceInfos.forEach(function(deviceInfo) {
+        option = document.createElement('option');
+	option.value = deviceInfo.deviceId;
+	if(deviceInfo.kind === 'audioinput'){
+	  option.text = deviceInfo.label || `microphone ${audioSource.length + 1}`;
+	  audioSource.appendChild(option);	
+	}else if(deviceInfo.kind === 'audiooutput'){
+	  option.text = deviceInfo.label || `speaker ${audioOutput.length + 1}`;
+	  audioOutput.appendChild(option);	
+	}else if(deviceInfo.kind === 'videoSource') {
+	  option.text = deviceInfo.label || `camera ${audioOutput.length + 1}`;
+	  videoSource.appendChild(option);
+	}
+      console.log(deviceInfo.kind + ": " + deviceInfo.label +
+                  " id = " + deviceInfo.deviceId);
+    });
+  })
+  .catch(function(err) {
+    console.log(err.name + ": " + err.message);
+  });
+
+}
+
+room = prompt('Enter room name:');
+
+const socket = io.connect();
+
+if (room !== '') {
+  console.log('Joining room ' + room);
+  socket.emit('create or join', room);
+}
+
+socket.on('full', (room) => {
+  console.log('Room ' + room + ' is full');
+});
+
+socket.on('empty', (room) => {
+  isInitiator = true;
+  console.log('Room ' + room + ' is empty');
+});
+
+socket.on('join', (room) => {
+  console.log('Making request to join room ' + room);
+  console.log('You are the initiator!');
+});
+
+socket.on('log', (array) => {
+  console.log.apply(console, array);
+});

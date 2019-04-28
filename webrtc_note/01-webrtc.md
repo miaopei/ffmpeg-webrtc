@@ -197,13 +197,75 @@ getUserMedia的不同实现：
 
 `https://webrtc.github.io/adapter/adapter-latest.js`
 
+WebRTC音视频采集约束：
 
+约束详解：
 
+- width
 
+- height
 
+  宽高比例：`4:3`  `16:9`
 
+- aspectRatio
 
+- frameRate
 
+- facingMode
+
+  - user - 前置摄像头
+  - environment - 后置摄像头
+  - left - 前置左侧摄像头
+  - right - 前置右侧摄像头
+
+- resizeMode
+
+音频约束详解：
+
+- volume - `范围 0 - 1.0`
+- sampleRate
+- sampleSize -  一般16位
+- echoCancellation - 回音消除
+- autoGainControl - 是否在原有声音基础上增加音量
+- noiseSuppression - 降噪
+- latency - 延迟大小
+- channelCount - 声道  乐器一般是双声道
+- deviceID - 作用是多个设备切换
+- groupID 
+
+WebRTC约束例子：
+
+```json
+{
+    audio: true,
+    video: {
+        width: {
+            min: 300,
+            max: 640,
+        },
+        height: {
+            min: 300,
+            max: 480,
+        },
+        frameRate: {
+            min: 15,
+            max: 30,
+        }
+    }
+}
+```
+
+浏览器视频特效：
+
+- CSS filter，`-webkit-filter/filter`
+- 如何将 video 与 filter 关联
+- OpenGL/Metal/...
+
+支持的特效种类：
+
+<img src="_asset/支持的特效种类.png">
+
+保存图片是实现滤镜效果，可以对 canvas.data 进行数据修改。
 
 
 

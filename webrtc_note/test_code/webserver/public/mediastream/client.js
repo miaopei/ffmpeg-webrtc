@@ -1,3 +1,7 @@
+'use strict'
+
+var videoplay = document.querySelector("video#palyer");
+
 navigator.getUserMedia = navigator.getUserMedia ||
                          navigator.webkitGetUserMedia ||
                          navigator.mozGetUserMedia;
@@ -5,7 +9,7 @@ navigator.getUserMedia = navigator.getUserMedia ||
 if (navigator.getUserMedia) {
    navigator.getUserMedia({ audio: true, video: { width: 1280, height: 720 } },
       function(stream) {
-         var video = document.querySelector('video');
+         var video = document.querySelector('video#player');
          video.src = window.URL.createObjectURL(stream);
          video.onloadedmetadata = function(e) {
            video.play();

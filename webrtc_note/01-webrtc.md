@@ -195,6 +195,8 @@ getUserMedia的不同实现：
 
 <img src="_asset/适配置不同浏览器的方法.png">
 
+`https://webrtc.github.io/adapter/adapter-latest.js`
+
 
 
 

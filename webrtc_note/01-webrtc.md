@@ -50,8 +50,6 @@ google webrtc 示例：https://appr.tc/
 
 WebRTC 整体架构：
 
-
-
 <img src="_asset/webrtc架构.png">
 
 
@@ -93,21 +91,125 @@ PeerConnection调用过程：
 
 ## 3. Web服务器原理与Nodejs搭建
 
+Web服务器选型：
 
+- Nodejs
+- Nginx
+- Apache
 
+Web服务工作原理：
 
+<img src="_asset/web服务工作原理.png">
+
+Nodejs工作原理：
+
+<img src="_asset/Nodejs工作原理.png">
+
+JavaScript解析：
+
+<img src="_asset/JavaScript解析.png">
+
+Nodejs 事件处理：
 
 <img src="_asset/Nodejs事件处理.png">
 
+两个V8引擎：
+
+<img src="_asset/两个V8引擎.png">
+
+最简单的http服务：
+
+- **require** 引入http模块
+- 创建http服务
+- 侦听端口
+
+启动Nodejs服务：
+
+- node app.js
+- nohub node app.js
+- forever start app.js
+- pm2 start app.js
+
+Https基本原理：
+
+<img src="_asset/https基本原理.png">
+
+Nodejs 搭建 https 服务：
+
+- 生成 HTTPS证书
+- 引入 HTTPS模块
+- 指定证书位置，并创建 HTTPS 服务
+
+真正的Web服务：
+
+- 引用 express 模块
+- 引入 server-index 模块
+- 指定发布目录
+
 ## 4. JavaScript 必备知识回顾
 
+基础知识：
 
+- 变量与类型
+- 基本运算
+- `if/else`
+- for循环
+- 函数
+- 日志打印
+
+变量与类型：
+
+<img src="_asset/变量与类型.png">
+
+基本运算：
+
+<img src="_asset/基本运算.png">
+
+<img src="_asset/ifelse.png">
+
+<img src="_asset/for循环.png">
+
+<img src="_asset/函数.png">
 
 ## 5. WebRTC设备管理
+
+enumerateDevices：
+
+<img src="_asset/enumerateDevices.png">
+
+JavaScript中的Promise：
+
+<img src="_asset/JavaScript中的Promise.png">
+
+
+
+
+
+
+
+
 
 
 
 ## 6. WebRTC音视频数据采集
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -37,7 +37,7 @@ function gotDevices(deviceInfos)
 
 function gotMediaStream(stream)
 {
-    console.log('onRemoteStream stream', stream);
+    //console.log('onRemoteStream stream', stream);
     videoplay.srcObject = stream;
     return navigator.mediaDevices.enumrateDevices();
 }
@@ -59,12 +59,13 @@ function start()
                 width: 640,
                 height: 480,
                 frameRate: 30,
-                deviceId: deviceId ? deviceId : undefined;
+                deviceId: deviceId ? deviceId : undefined
             },
             audio: {
                 noiseSuppression: true,
                 echoCancellation: true
             },
+        };
 
         navigator.mediaDevices.getUserMedia(constrants)
             .then(gotMediaStream)

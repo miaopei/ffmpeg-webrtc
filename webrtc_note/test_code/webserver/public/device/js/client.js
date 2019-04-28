@@ -1,7 +1,7 @@
 'use strict'
 
 var audioInput = document.querySelector("select#audioInput");
-var audioOutput  = document.querySelector("select#audioOutput");
+var audioOutput = document.querySelector("select#audioOutput");
 var videoInput = document.querySelector("select#videoInput");
 
 if(!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {

@@ -181,19 +181,19 @@ JavaScript中的Promise：
 
 <img src="_asset/JavaScript中的Promise.png">
 
-
-
-
-
-
-
-
-
-
-
 ## 6. WebRTC音视频数据采集
 
+音视频采集API：
 
+<img src="_asset/音视频采集API.png">
+
+getUserMedia的不同实现：
+
+<img src="_asset/getUserMedia的不同实现.png">
+
+适配置不同浏览器的方法：
+
+<img src="_asset/适配置不同浏览器的方法.png">
 
 
 

@@ -4,6 +4,7 @@ var videoplay = document.querySelector("video#palyer");
 
 function gotMediaStream(stream)
 {
+    console.log('onRemoteStream stream', stream);
     videoplay.srcObject = stream;
 }
 

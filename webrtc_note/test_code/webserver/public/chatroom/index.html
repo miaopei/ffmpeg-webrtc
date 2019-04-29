@@ -1,0 +1,44 @@
+<html>
+    <head>
+        <title>Chat Room</title>
+        <link rel="stylesheet" href="./css/main.css"></link>
+    </head>
+    <body>
+        <table align="center">
+            <tr>
+                <td>
+                    <label>UserName: </label>
+                    <input type=text id="username"></input>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Room: </label>
+                    <input type=text id="room"></input>
+                    <button id="connect">Connect</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Content:</label><br>
+                    <textarea disabled id="output" rows="10" cols="50"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label>Input:</label><br>
+                    <textarea disabled id="input" rows="3" cols="50"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button id="send">Send</button>
+                </td>
+            </tr>
+        </table>
+
+        <script src="https://cdn.bootcss.com/socket.io/2.2.0/socket.io.js"></script>
+        <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>-->
+        <script src="./js/client.js"></script>
+    </body>
+</html>

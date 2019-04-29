@@ -48,18 +48,39 @@ var https_server = https.createServer(options, app);
 
 // bind socket.io with https_server
 var io = socketIo.listen(https_server);
+var sockio = socketIo.listen(http_server);
 
 // connection
 io.sockets.on('connection', (socket)=>{
+    socket.on('message', (room, data)=>{
+        socket.to(room).emit('message', room, data); // 房间内所有有人，除自己外
+    });
+
+    // 该函数应该加锁
     socket.on('join', (room)=>{
         socket.join(room);
+
         var myRoom = io.sockets.adapter.rooms[room];
         var users = Object.keys(myRoom.sockets).length;
+
         logger.log('The number of user in room is:' + users);
-        //socket.emit('joined', room, socket.id);
+        
+        //在这里可以控制进入房间的人数,现在一个房间最多 2个人
+		//为了便于客户端控制，如果是多人的话，应该将目前房间里
+		//人的个数当做数据下发下去。
+		if(users < 3) {
+			socket.emit('joined', room, socket.id);	
+			if (users > 1) {
+				socket.to(room).emit('otherjoin', room);//除自己之外
+			}
+		}else {
+			socket.leave(room);
+			socket.emit('full', room, socket.id);	
+		}
+
         //socket.to(room).emit('joined', room, socket.id); // 除自己之外
         //io.in(room).emit('joined', room, socket.id); // 房间内所有人
-        socket.broadcast.emit('joined', room, socket.id); // 除自己，全部站点
+        //socket.broadcast.emit('joined', room, socket.id); // 除自己，全部站点
     });
 
     socket.on('leave', (room)=>{
@@ -67,12 +88,15 @@ io.sockets.on('connection', (socket)=>{
         var users = Object.keys(myRoom.sockets).length;
         // users - 1
 
-        socket.leave(room);
         logger.log('The number of user in room is:' + (users-1));
-        //socket.emit('leaved', room, socket.id);
+
+        socket.leave(room);
+		socket.to(room).emit('bye', room, socket.id); //房间内所有人,除自己外
+        socket.emit('leaved', room, socket.id);
+
         //socket.to(room).emit('leaved', room, socket.id); // 除自己之外
         //io.in(room).emit('leaved', room, socket.id); // 房间内所有人
-        socket.broadcast.emit('leaved', room, socket.id); // 除自己，全部站点
+        //socket.broadcast.emit('leaved', room, socket.id); // 除自己，全部站点
     })
 
 })

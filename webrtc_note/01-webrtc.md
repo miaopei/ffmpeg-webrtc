@@ -267,21 +267,121 @@ WebRTC约束例子：
 
 保存图片是实现滤镜效果，可以对 canvas.data 进行数据修改。
 
+MediaStream API 获取视频约束：
 
+<img src="_asset/MediaStream.png">
 
-
-
-
-
-
-
-
+<img src="_asset/MediaStream事件.png">
 
 ## 7. WebRTC音视频录制实战
 
+### 7.1 WebRTC录制基本知识
 
+MediaRecoder类：
+
+<img src="_asset/MediaRecoder.png">
+
+<img src="_asset/MediaRecorder参数.png">
+
+<img src="_asset/MediaRecorderAPI-01.png">
+
+<img src="_asset/MediaRecorderAPI-02.png">
+
+<img src="_asset/MediaRecorder事件.png">
+
+<img src="_asset/JavaScript几种存储数据的方式.png">
+
+### 7.2 WebRTC 捕获桌面
+
+<img src="_asset/getDisplayMedia.png">
+
+捕获桌面需要设置Chrome，具体 操作：<chrome://flags/#enable-experimental-web-platform-features>
+
+- Experimental Web Platform features 设置为 enable
 
 ## 8. WebRTC信令服务器实现
+
+如果没有信令服务器WebRTC之间是不能通信的。
+
+两个client之间通信必须有两个信息通过信令服务器的：
+
+- 媒体信息， SDP
+- 网络信息
+- 具体的业务
+
+<img src="_asset/信令服务器的作用.png">
+
+<img src="_asset/为什么要使用socketio.png">
+
+<img src="_asset/socketio工作原理.png">
+
+Socket.IO 发送消息：
+
+- 给本次连接发送消息
+
+  ```js
+  socket.emit()
+  ```
+
+- 给某个房间内所有人发送消息
+
+  ```js
+  io.in(room).emit()
+  ```
+
+- 除本链接外，给某个房间内所有人发送消息
+
+  ```js
+  socket.to(room).emit()
+  ```
+
+- 除本链接外，给所有人发送消息
+
+  ```js
+  socket.broadcast.emit()
+  ```
+
+Socket.IO 客户端处理消息：
+
+- 发送 action 命令
+
+  ```js
+  S: socket.emit('action');
+  C: socket.on('action', function(){...});
+  ```
+
+- 发送了一个 action 命令，还有 data 数据
+
+  ```js
+  S: socket.emit('action', data);
+  C: socket.on('action', function(data){...});
+  ```
+
+- 发送了 action 命令，还有两个数据
+
+  ```js
+  S: socket.emit('action', arg1, arg2);
+  C: socket.on('action', function(arg1, arg2){...});
+  ```
+
+- 发送了一个 action 命令，在 emit 方法中包含回调函数
+
+  ```js
+  S: socket.emit('action', data, function(arg1, arg2){...};
+  C: socket.on('action', function(data, fn){fn('a', 'b');});
+  ```
+
+### 8.1 [实战] 通过 socket.io 实现信令服务器
+
+改造服务端的基本流程：
+
+- 安装 socket.io
+- 引入 socket.io
+- 处理 connection 消息
+
+
+
+
 
 
 
@@ -371,16 +471,6 @@ WebRTC的分层协议图：
 
 <img src="_asset/">
 
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
 ## 问题解决里程
 
 node 启动 server 报错：
@@ -410,7 +500,105 @@ Error: listen EACCES 0.0.0.0:443
 $ netstat -ntpl | grep 443
 ```
 
+## VIM 快捷键温习
 
+> [Vim 插件 tern_for_vim Javascript 自动补全](<https://wxnacy.com/2017/09/22/vim-plugin-tern/>)
+>
+> [最全的vim快捷键](<http://www.cnblogs.com/jiqingwu/archive/2012/06/14/vim_notes.html#id107>)
+
+vim 格式化文本，调整缩进：
+
+> = 是格式化文本的快捷方法， 当你发现代码缩进的不整齐的，可以用这个快速对齐它们。
+>
+> 直接按＝号就可以，不能进入命令模式（以 “:" 冒号开始的命令行）。
+>
+> gg=G ：从头格到尾，爽。
+>
+> ＝＝ 格式化一行
+>
+> 如要格式化一段代码，可以先选中这些代码，再按＝号。
+>
+> 调整缩进还有个比较慢的办法，按＞＞，向右缩进一格，＜＜向左缩进一格。
+
+vim常用快捷键总结：
+
+- 光标移动到行首：0
+
+- 光标移动到行尾：$
+
+- 光标移动到文件开始：GG
+
+- 光标移动到文件末尾：shift +G
+
+- 先前翻页：Ctrl+f
+
+- 向后翻页：Ctrl+b
+
+- 删至行首：d0
+
+- 删至行尾：d$
+
+- 删除当前行及其后面n-1行：ndd
+
+- 删除当前字符：x
+
+- 删除当前字符的前一个字符：X
+
+- 删除当前字符：dl
+
+- 删除到第三个字符的结尾位置：d3w
+
+- 删除到某个单词的末尾：dw
+
+- 删除到某个单词的开始：db
+
+- 删除当前行到文件的末尾：dG
+
+- 删除当前行到文件第一行：dH
+
+- 删除知道屏幕上最后一行：dL
+
+- 替换当前行所有temp为hehe：:s/temp/hehe/g
+
+- 替换每行中第一个#include为hehe：:%s/#include/hehe/
+
+- 替换每行中所有的#include为hehe：:%s/#include/hehe/g
+
+- 替换第n行开始到最后一行中每一行的第一个#include为hehe：:n,$s/#include/hehe/
+
+- 替换第n行开始到最后一行中每一行的所有#include为hehe：:n,$s/#include/hehe/g
+
+- 替换当前行到末尾的所有#include为hehe：:.,$s/#include/hehe/g
+
+- 替换正文中所有出现的#include为hehe：:1,$s/#include/hehe/g
+
+- 回复上一步操作：u
+
+- 全部回复操作：shift + u
+
+- 重做上一步操作：Ctrl + r
+
+- 把下一行合并到当前行尾：J
+
+- 选中当前行及其后面的n-1行：nV
+
+- 复制当前光标到此单词末尾：yw
+
+- 批量添加注释：Ctrl+v可视模式，上、下、左、右移动光标选择若干行开头；Shift+i进入插入模式；输入//
+
+  者；按Esc
+
+- 批量去掉注释：Ctrl+v可视模式，上、下、左、右移动关闭选择要删除的注释符，如//或#；按d删除
+
+- 横向打开另一个窗口：:sp 文件名
+
+- 竖向打开另一个窗口：:vsp 文件名
+
+- 关闭当前打开的所有窗口：:qa
+
+- 选择当前字符所在的单词：Ctrl+v可视模式，然后a+w或i+w
+
+- 选择当前字符所在的段落：Ctrl+v可视模视，然后i+p或a+p
 
 
 

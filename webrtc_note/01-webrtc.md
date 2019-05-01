@@ -387,6 +387,149 @@ Socket.IO 客户端处理消息：
 
 ## 9. WebRTC网络基础补充：P2P/STUN/TRUN/ICE知识
 
+### 9.1 WebRTC 网络传输基本知识
+
+WebRTC 传输基本知识：
+
+- NAT（Network Address Translator）
+- STUN（Simple Traversal of UDP Through NAT）
+- TURN（Travelsal Using Relays around NAT）
+- ICE（Interactive Connectivity Establishment）
+
+<img src="_asset/NAT.png>
+
+NAT 产生的原因：
+
+- 由于IPv4的地址不够
+- 处于网络安全的原因
+
+NAT 的种类：
+
+- 完全锥型 NAT（Full Cone NAT）
+- 地址限制锥型 NAT（Address Restricted Cone NAT）
+- 端口限制锥型 NAT（Port Restricted Cone NAT）
+- 对称型 NAT（Symmetric NAT）
+
+### 9.2 NAT 打洞原理
+
+<img src="_asset/完全锥形NAT.png">
+
+
+
+
+
+
+
+### 9.3 NAT 类型检测
+
+
+
+
+
+
+
+### 9.4 【协议规范】STUN 协议一
+
+STUN 介绍：
+
+- STUN 存在的目的就是进行 NAT 穿越
+- STUN 是典型的客户端 / 服务器模式。客户端发送请求，服务端进行响应
+
+RFC STUN 规范：
+
+- **RFC3489/STUN**
+
+  SImple Traversal of UDP Trough NAT
+
+- **RFC5389/STUN** — 包含UDP和TCP
+
+  Session Traversal Utilities for NAT
+
+STUN 协议：
+
+- 包括 20 字节的 STUN header
+- Body 中可以有 0 个或多个 Attribute
+
+STUN header（RFC3489）：
+
+- 其中 2 个字节（16bit）类型
+- 2 个字节（16bit）消息长度，不包括消息头
+- 16 个字节（128bit）事物ID，请求与响应事物 ID 相同
+
+STUN header（RFC5389）格式：
+
+<img src="_asset/">
+
+
+
+
+
+
+
+
+
+### 9.5 【协议规范】STUN 协议二
+
+
+
+
+
+### 9.6 【协议规范】TURN 协议
+
+TURN 介绍：
+
+- 其目的是解决对称 NAT 无法穿越的问题
+- 其建立在 STUN 之上，消息格式使用 STUN 格式消息
+- TURN Client 要求服务端分配一个公共 IP 和 Port 用于接受 或 发送数据
+
+<img src="_asset/">
+
+
+
+
+
+### 9.7 【协议规范】ICE 框架
+
+
+
+
+
+收集 Candidate：
+
+- Host Candidate：本机所有 IP 和指定端口
+- Reflexive Candidate：STUN/TURN
+- Relay Candidate：TURN
+
+什么是 SDP：
+
+- **SDP（Session Description Protocol）** 它只是一种信息格式的描述标准，本身不属于传输协议，但是可以被其他传输协议用来交换必要的信息。
+
+
+
+形成 Candidate Pair：
+
+- 一方收集到所有候选者后，通过信令传给对方
+- 同样，另一方收到候选者后，也做收集工作
+- 当双方拿到全部列表后，将侯选者形成匹配对儿
+
+连通性检查：
+
+- 对侯选者进行优先级排序
+- 对每个侯选对进行发送检查
+- 对每个侯选对进行接收检查
+
+
+
+### 9.8 网络分析方法 tcpdump 与 wireshark讲解
+
+
+
+
+
+
+
+
+
 
 
 ## 10. 端对端1V1传输基本流程
@@ -584,9 +727,7 @@ vim常用快捷键总结：
 
 - 复制当前光标到此单词末尾：yw
 
-- 批量添加注释：Ctrl+v可视模式，上、下、左、右移动光标选择若干行开头；Shift+i进入插入模式；输入//
-
-  者；按Esc
+- 批量添加注释：Ctrl+v可视模式，上、下、左、右移动光标选择若干行开头；Shift+i进入插入模式；输入// 者；按Esc
 
 - 批量去掉注释：Ctrl+v可视模式，上、下、左、右移动关闭选择要删除的注释符，如//或#；按d删除
 

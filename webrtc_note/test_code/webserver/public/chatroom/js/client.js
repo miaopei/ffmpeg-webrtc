@@ -25,8 +25,9 @@ btnConnect.onclick = ()=>{
         inputArea.disabled = true;
         btnSend.disabled = true;
     });
-    socket.on('message', (room, id, data) => {
-        outputArea.value = outputArea.value + data + '\r';
+    socket.on('message', (room, data) => {
+        console.log('room:' + room + " user:" + data['user'] + " data:" + data['msg'] + '\r');
+        outputArea.value = outputArea.value + data['user'] + ': ' + data['msg'] + '\r';
     });
 
     // send message
@@ -34,10 +35,16 @@ btnConnect.onclick = ()=>{
     socket.emit('join', room);
 }
 
-btnSend.onclick = ()=> {
+btnSend.onclick = ()=>{
     var data = inputArea.value;
-	data = userName.value + ':' + data;
-    socket.emit('message', room, data);
+	//data = userName.value + ':' + data;
+    console.log("senddata:" + data);
+    var sendData = {
+        user: userName.value,
+        msg: data
+    };
+    socket.emit('message', room, sendData);
+    outputArea.value = outputArea.value + userName.value + ": " + data + '\r';
     inputArea.value = '';
 }
 

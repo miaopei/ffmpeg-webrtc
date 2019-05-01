@@ -379,12 +379,6 @@ Socket.IO 客户端处理消息：
 - 引入 socket.io
 - 处理 connection 消息
 
-
-
-
-
-
-
 ## 9. WebRTC网络基础补充：P2P/STUN/TRUN/ICE知识
 
 ### 9.1 WebRTC 网络传输基本知识
@@ -396,7 +390,7 @@ WebRTC 传输基本知识：
 - TURN（Travelsal Using Relays around NAT）
 - ICE（Interactive Connectivity Establishment）
 
-<img src="_asset/NAT.png>
+<img src="_asset/NAT.png">
 
 NAT 产生的原因：
 
@@ -412,21 +406,37 @@ NAT 的种类：
 
 ### 9.2 NAT 打洞原理
 
-<img src="_asset/完全锥形NAT.png">
+<img src="_asset/完全锥型NAT.png">
 
+<img src="_asset/地址限制锥型NAT.png">
 
+<img src="_asset/端口限制锥型NAT.png">
 
+<img src="_asset/对称型NAT.png">
 
+NAT 穿越原理：
 
+- C1，C2 向 STUN 发消息
+- 交换公网 IP 及 端口
+- C1 -> C2，C2 -> C1，甚至是端口猜测
 
+<img src="_asset/NAT穿越组合.png">
 
 ### 9.3 NAT 类型检测
 
+<img src="_asset/NAT类型判断.png">
 
+公网 IP：
 
+<img src="_asset/NAT类型检测-01.png">
 
+如果 Client 收到的 IP 和第一次发出去的 IP 是不一样的，则是对称型 NAT，如果是一样的需要进一步判断：
 
+<img src="_asset/NAT类型检测-02.png">
 
+Client 通过 Port2 发送消息到 STUN Port1，STUN Server 通过 Port2 给 Client 回消息，如果 Client 能收到消息，则说明是 IP 限制型的；如果不能收到，则说明是端口限制型的：
+
+<img src="_asset/NAT类型检测-03.png">
 
 ### 9.4 【协议规范】STUN 协议一
 
@@ -458,21 +468,37 @@ STUN header（RFC3489）：
 
 STUN header（RFC5389）格式：
 
-<img src="_asset/">
+<img src="_asset/STUNHeader格式.png">
 
+<img src="_asset/STUNMessageType.png">
 
+M 代表请求值，C 代表分类：
 
+<img src="_asset/STUNMessageType-01.png">
 
+<img src="_asset/C0C1.png">
 
+RFC5389 把私密类型去掉了：
 
-
-
+<img src="_asset/STUN消息类型.png">
 
 ### 9.5 【协议规范】STUN 协议二
 
+Inter 机子都是小端模式：
 
+<img src="_asset/大小端模式.png">
 
+<img src="_asset/STUNMessageType-02.png">
 
+<img src="_asset/TransactionID.png">
+
+<img src="_asset/STUNMessageBody.png">
+
+<img src="_asset/TLV.png">
+
+<img src="_asset/RFC3489定义的属性.png">
+
+<img src="_asset/Attribute的使用.png">
 
 ### 9.6 【协议规范】TURN 协议
 
@@ -482,17 +508,42 @@ TURN 介绍：
 - 其建立在 STUN 之上，消息格式使用 STUN 格式消息
 - TURN Client 要求服务端分配一个公共 IP 和 Port 用于接受 或 发送数据
 
-<img src="_asset/">
+<img src="_asset/TURN例子.png">
 
+<img src="_asset/TURN使用的传输协议.png">
 
+<img src="_asset/TURNAllocate.png">
 
+TURN 发送机制：
 
+- Send 和 Data
+- Channel
+
+<img src="_asset/TURNSendAndData.png">
+
+<img src="_asset/TURNChannel.png">
+
+<img src="_asset/TURN的使用.png">
 
 ### 9.7 【协议规范】ICE 框架
 
+<img src="_asset/ICE.png">
 
+<img src="_asset/ICECandidate.png">
 
+Candidate 类型：
 
+- 主机候选者
+- 反射侯选者
+- 中继候选者
+
+ICE 具体做些什么：
+
+- 收集 Candidate
+- 对 Candidate Pair 排序
+- 连通性检查
+
+<img src="_asset/Candidate关系图.png">
 
 收集 Candidate：
 
@@ -504,7 +555,7 @@ TURN 介绍：
 
 - **SDP（Session Description Protocol）** 它只是一种信息格式的描述标准，本身不属于传输协议，但是可以被其他传输协议用来交换必要的信息。
 
-
+<img src="_asset/SDP例子.png">
 
 形成 Candidate Pair：
 
@@ -518,29 +569,303 @@ TURN 介绍：
 - 对每个侯选对进行发送检查
 - 对每个侯选对进行接收检查
 
+<img src="_asset/连通性过程.png">
 
+### 9.8 网络协议分析方法 tcpdump 与 wireshark讲解
 
-### 9.8 网络分析方法 tcpdump 与 wireshark讲解
+常用工具：
 
+- Linux 服务端用 tcpdump
+- 其它端 WireShark
 
+<img src="_asset/tcpdump.png">
 
+### 9.9 网络协议分析方法 tcpdump 与 wireshark 实战
 
+vim 打开二进制数据：
 
+```shell
+：%！xxd
+```
 
+WireShark 中的逻辑运算：
 
+- 与：and 或 &&
+- 或：or 或 ||
+- 非：not 或 ！
 
+WireShark 中判断语句：
 
+- 等于：eq 或 ==
+- 小于：lt 或 <
+- 大于：gt 或 >
+- 小于等于：le 或 <=
+- 大于等于：ge 或 >=
+- 不等于：ne 或 !=
 
+WireShark 按协议过滤：
+
+- stun
+- tcp
+- udp
+
+模拟STUN数据可以使用这个网站中的工具：<https://webrtc.github.io/samples>
+
+Wireshark 按 IP 过滤：
+
+```
+ip.dst == 192.168.1.2
+ip.src == 192.168.1.2
+ip.addr == 192.168.1.2
+```
+
+WireShark 按 port 过滤：
+
+```
+tcp.port == 8080
+udp.port == 3478
+udp.dstport == 3478
+udp.srcport == 3478
+```
+
+WireShark 过滤长度：
+
+```
+udp.length < 30
+tcp.length < 30
+http.content_length < 30
+```
+
+WireShark 过滤内容：
+
+TODO
 
 ## 10. 端对端1V1传输基本流程
 
+### 10.1 媒体能力协商过程
 
+WebRTC 端对端连接：
+
+**RTCPeerConnection**：
+
+- 基本格式
+
+  ```js
+  pc = new RTCPeerConnection([configuration]);
+  ```
+
+**RTCPeerConnection 方法分类**：
+
+- 媒体协商
+- Stream/Track
+- 传输相关方法
+- 统计相关方法
+
+<img src="_asset/媒体协商过程.png">
+
+<img src="_asset/协商状态变化.png">
+
+**媒体协商方法**：
+
+- createOffer
+- createAnswer
+- setLocakDescription
+- setRemoteDescription
+
+**createOffer**：
+
+- 基本格式
+
+  ```js
+  aPromise = myPeerConnection.createOffer([options]);
+  ```
+
+**createAnswer**：
+
+- 基本格式
+
+  ```js
+  aPromise = myPeerConnection.createAnswer([options]);
+  ```
+
+**setLocakDescription**：
+
+- 基本格式
+
+  ```js
+  aPromise = myPc.setLocalDescription(sessionDescription);
+  ```
+
+**setRemoteDescription**：
+
+- 基本格式
+
+  ```js
+  aPromise = myPc.setRemoteDescription(sessionDescription);
+  ```
+
+**Track 方法**：
+
+- addTrack
+- removeTrack
+
+**addTrack**：
+
+- 基本格式
+
+  ```js
+  rtpSender = myPc.addTrack(track, stream...);
+  ```
+
+- Parameters
+
+  <img src="_asset/addTrackParameters.png">
+
+**removeTrack**：
+
+- 基本格式
+
+  ```js
+  myPc.remoteTrack(rtpSender);
+  ```
+
+**重要事件**：
+
+- onnegotiationneeded  - 协商的时候触发这个事件
+- onicecandidate - 当收到 ICE 候选者的时候触发这个事件
+
+### 10.2 1:1 连接的基本流程
+
+<img src="_asset/端对端连接的基本流程.png">
+
+**A 与 B 通信，大的方向分为三部分**：
+
+- 媒体协商部分
+- ICE 候选者的交换、连接、检测部分
+- 媒体数据流的通信部分
+
+### 10.3 【实战】WebRTC 视频传输
+
+TODO
+
+### 10.4 【实战】显示通讯双方的 SDP 内容
+
+TODO
 
 ## 11. WebRTC核心之SDP详解
 
+### 11.1 【协议规范】SDP 规范
 
+**SDP 规范**：
+
+- 会话层
+- 媒体层
+
+可以把会话层看做树根，媒体层看成树干。
+
+**会话层**：
+
+- 会话的名称与目的
+- 会话的存活时间
+- 会话中包含多个媒体信息
+
+**SDP 媒体信息**：
+
+- 媒体格式
+- 传输协议
+- 传输 IP 和 端口
+- 媒体负载类型
+
+**SDP 格式**：
+
+- 由多个 `<type>=<value>` 组成
+- 一个会话级描述
+- 多个媒体级描述
+
+**SDP 结构**：
+
+- Session Description
+- Time Description
+- Media Description
+
+<img src="_asset/SessionDescription.png">
+
+<img src="_asset/TimeDescription.png">
+
+<img src="_asset/MediaDescription.png">
+
+<img src="_asset/字段含义-01.png">
+
+<img src="_asset/字段含义-02.png">
+
+<img src="_asset/字段含义-03.png">
+
+<img src="_asset/字段含义-04.png">
+
+<img src="_asset/字段含义-05.png">
+
+<img src="_asset/字段含义-06.png">
+
+<img src="_asset/字段含义-07.png">
+
+### 11.2 【协议规范】WebRTC 中的 SDP
+
+<img src="_asset/WebRTC中的SDP.png">
+
+### 11.3 【详解】WebRTC 中 Offer_Answer SDP
+
+```
+
+```
 
 ## 12. 实现1V1音视频实时互动直播系统
+
+### 12.1 STUN/TURN 服务器搭建
+
+coTurn Download Address：<https://github.com/coturn/coturn>
+
+ICE 测试地址：<https://webrtc.github.io/samples>
+
+```shell
+# 启动 turn server
+$ turnserver -c /usr/local/coturn/etc/turnserver.conf
+```
+
+<img src="_asset/STUNTURN服务器选型.png">
+
+<img src="_asset/coTurn服务器搭建与部署.png">
+
+<img src="_asset/coTurn服务器配置.png">
+
+<img src="_asset/测试turn服务.png">
+
+### 12.2 【参数介绍】再论 RTCPeerConnection
+
+<img src="_asset/RTCPeerConnection-01.png">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

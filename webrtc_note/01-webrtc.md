@@ -843,33 +843,124 @@ $ turnserver -c /usr/local/coturn/etc/turnserver.conf
 
 <img src="_asset/RTCPeerConnection-01.png">
 
-<img src="_asset/">
+<img src="_asset/Configurations-01.png">
 
-<img src="_asset/">
+<img src="_asset/Configurations-02.png">
 
+<img src="_asset/Configurations-03.png">
 
+<img src="_asset/Configurations-04.png">
 
+<img src="_asset/addIceCandidate.png">
 
+### 12.3 直播系统中的信令及其逻辑关系
 
+【实战】真正的音视频传输
 
+**客户端信令消息**：
 
+- join 加入房间
+- leave 离开房间
+- message 端到端消息
 
+**端到端信令消息**：
 
+- Offer 消息
+- Answer 消息
+- Candidate 消息
 
+**服务端信令消息**：
 
+- joined 已加入房间
+- otherjoin 其它用户加入房间
+- full 房间人数已满
+- leaved 已离开房间
+- bye 对方离开房间
 
+<img src="_asset/直播系统消息处理流程.png">
 
+### 12.4 实现 1：1 音视频实时互动信令服务器
 
+信令服务器改造
 
+TODO
 
+### 12.5 再论CreateOffer
 
+<img src="_asset/createOffer.png">
 
+**CreateOffer 实战**：
 
+- 接收远端音频
+- 接收远端视频
+- 静音检测
+- ICE restart
 
+### 12.6 WebRTC 客户端状态机及处理逻辑
 
+直播客户端的实现：
 
+<img src="_asset/客户端状态机.png">
+
+<img src="_asset/客户端流程图.png">
+
+<img src="_asset/客户端流程图-01.png">
+
+<img src="_asset/端对端连接的基本流程.png">
+
+### 12.7 WebRTC 客户端的实现
+
+<img src="_asset/注意要点.png">
+
+### 12.8 共享远程桌面
+
+<img src="_asset/getDisplayMedia-01.png">
+
+<img src="_asset/需要注意的点.png">
 
 ## 13. WebRTC核心之RTP媒体控制与数据统计
+
+### 13.1 RTPPReceiver 发送器
+
+RTP Media
+
+<img src="_asset/Receiver和Sender.png">
+
+<img src="_asset/RTCRtpSender属性.png">
+
+<img src="_asset/RTCRtpReceiver.png">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+
+
+
+
+
+
+
 
 
 
@@ -891,27 +982,7 @@ $ turnserver -c /usr/local/coturn/etc/turnserver.conf
 
 ## 18. 课程总结
 
-
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
+TODO
 
 ## Reference
 

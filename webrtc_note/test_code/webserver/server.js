@@ -11,6 +11,8 @@ var socketIo = require('socket.io');
 
 var log4js = require('log4js');
 
+var USERCOUNT = 3;
+
 log4js.configure({
     appenders: {
         file: {
@@ -53,8 +55,9 @@ var sockio = socketIo.listen(http_server);
 // connection
 io.sockets.on('connection', (socket)=>{
     logger.log('Socket.io connection ...');
+
     socket.on('message', (room, data)=>{
-        socket.to(room).emit('message', room, data); // 房间内所有有人，除自己外
+        socket.to(room).emit('message', room, data);
     });
 
     // 该函数应该加锁
@@ -62,35 +65,35 @@ io.sockets.on('connection', (socket)=>{
         socket.join(room);
 
         var myRoom = io.sockets.adapter.rooms[room];
-        var users = Object.keys(myRoom.sockets).length;
+        var users = (myRoom) ? Object.keys(myRoom.sockets).length : 0;
 
-        logger.log('The number of user in room is:' + users);
+        logger.debug('The number of user in room is:' + users);
         
-        //在这里可以控制进入房间的人数,现在一个房间最多 2个人
-		//为了便于客户端控制，如果是多人的话，应该将目前房间里
-		//人的个数当做数据下发下去。
-		//if(users < 3) {
-		//	socket.emit('joined', room, socket.id);	
-		//	if (users > 1) {
-		//		socket.to(room).emit('otherjoin', room);//除自己之外
-		//	}
-		//}else {
-		//	socket.leave(room);
-		//	socket.emit('full', room, socket.id);	
-		//}
+        // 在这里可以控制进入房间的人数,现在一个房间最多 2个人
+		// 为了便于客户端控制，如果是多人的话，应该将目前房间里
+		// 人的个数当做数据下发下去。
+		if(users < USERCOUNT) {
+			socket.emit('joined', room, socket.id);	 // 谁来了发给谁
+			if (users > 1) {
+				socket.to(room).emit('otherjoin', room, socket.id);//除自己之外
+			}
+		}else {
+			socket.leave(room);
+			socket.emit('full', room, socket.id);	
+		}
 
-		socket.emit('joined', room, socket.id);	
-        //socket.to(room).emit('joined', room, socket.id); // 除自己之外
-        //io.in(room).emit('joined', room, socket.id); // 房间内所有人
-        //socket.broadcast.emit('joined', room, socket.id); // 除自己，全部站点
+		//socket.emit('joined', room, socket.id); // 发给自己	
+        //socket.to(room).emit('joined', room, socket.id); // 发给除自己之外的房间内的所有人
+        //io.in(room).emit('joined', room, socket.id); // 发给房间内所有人
+        //socket.broadcast.emit('joined', room, socket.id); // 发给除自己之外，这个节点上的所有人
     });
 
     socket.on('leave', (room)=>{
         var myRoom = io.sockets.adapter.rooms[room];
-        var users = Object.keys(myRoom.sockets).length;
+        var users = (myRoom) ? Object.keys(myRoom.sockets).length : 0;
         // users - 1
 
-        logger.log('The number of user in room is:' + (users-1));
+        logger.debug('The number of user in room is:' + (users-1));
 
         socket.leave(room);
 		socket.to(room).emit('bye', room, socket.id); //房间内所有人,除自己外

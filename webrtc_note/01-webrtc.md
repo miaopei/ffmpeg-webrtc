@@ -1,5 +1,9 @@
 # WebRTC
 
+> [WebRTC API](<https://developer.mozilla.org/zh-CN/docs/Web/API/WebRTC_API>)
+>
+> 
+
 ## 1. WebRTC 介绍
 
 - Google 开源
@@ -1042,11 +1046,70 @@ TODO
 
 ## 16. Android端与浏览器互通
 
+### 16.1 Android 与浏览器互通
+
+<img src="_asset/主要内容.png">
+
+<img src="_asset/需要权限.png">
+
+<img src="_asset/Android权限管理.png">
+
+<img src="_asset/引入库.png">
+
+<img src="_asset/信令处理.png">
+
+<img src="_asset/AndroidSocketio.png">
+
+<img src="_asset/socketio接收消息.png">
+
+### 16.2 WebRTCNative 开发逻辑
+
+<img src="_asset/结构图.png">
+
+<img src="_asset/呼叫端时序图.png">
+
+<img src="_asset/被叫端时序图.png">
+
+<img src="_asset/关闭时序图.png">
+
+<img src="_asset/webrtc处理流程.png">
+
+<img src="_asset/重要类-01.png">
+
+<img src="_asset/重要类-02.png">
+
+<img src="_asset/两个观察者.png">
+
+### 16.3 实战-权限申请-库的引入与界面
+
+<img src="_asset/权限库界面.png">
+
+### 16.4 实战-通过 socket.io 实现信令收发
+
+<img src="_asset/收发信令.png">
+
+### 16.5 实战-Android 与浏览器互通
+
+创建 PeerConnection：
+
+- 音视频数据采集
+- 创建 PeerConnection
+
+媒体能力协商：
+
+- 协商媒体能力
+- Candidate 连通
+- 视频渲染
+
+
+
+
+
 
 
 ## 17. iOS端与浏览器互通
 
-
+TODO
 
 ## 18. 课程总结
 

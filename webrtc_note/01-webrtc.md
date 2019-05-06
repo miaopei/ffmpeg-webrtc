@@ -1127,6 +1127,12 @@ TODO
 >
 > [SSL证书生成流程](<https://www.jianshu.com/p/9091ebd439a0>)
 
+> [Gradle官网](<https://gradle.org/install/>)
+>
+> [Gradle 包](<http://tools.android-studio.org/index.php/9-tools/109-android-tools-download>)
+>
+> [Mac下AndroidStudio中手动配置Gradle](<https://www.jianshu.com/p/36e569c1bb12>)
+
 
 
 WebRTC的分层协议图：

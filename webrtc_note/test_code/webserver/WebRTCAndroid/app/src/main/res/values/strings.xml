@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">WebRTCAndroid</string>
+    <string name="join_room">Join</string>
+    <string name="room_tips">Input room name: </string>
+    <string name="server_tips">Input server addr: </string>
+    <string name="default_server">https://xxxx.cn</string>
+</resources>

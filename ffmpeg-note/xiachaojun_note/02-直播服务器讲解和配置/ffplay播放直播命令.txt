@@ -1,0 +1,3 @@
+#在包含ffplay执行文件和dll文件的bin目录执行如下命令
+#使用ffplay播放 
+ffplay rtmp://192.168.1.44/live  -fflags nobuffer

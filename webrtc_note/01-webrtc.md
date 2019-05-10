@@ -2,6 +2,10 @@
 
 > [WebRTC API](<https://developer.mozilla.org/zh-CN/docs/Web/API/WebRTC_API>)
 >
+> [Node.js v10.15.3 文档](<http://nodejs.cn/api/>)
+>
+> [廖雪峰 - nodejs](<https://www.liaoxuefeng.com/wiki/1022910821149312/1023025235359040>)
+>
 > 
 
 ## 1. WebRTC 介绍

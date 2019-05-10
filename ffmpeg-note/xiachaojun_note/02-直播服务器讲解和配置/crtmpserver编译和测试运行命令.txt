@@ -1,0 +1,14 @@
+apt-get install wget cmake
+apt-get install libssl-dev
+wget https://codeload.github.com/j0sh/crtmpserver/zip/centosinit
+unzip centosinit
+cd builders/cmake
+cmake . 
+make
+./crtmpserver/crtmpserver ./crtmpserver/crtmpserver.lua
+
+#开始推流测试
+ffmpeg  -i test.flv  -f flv rtmp://192.168.1.44/live
+
+#使用vlc播放 rtmp://192.168.1.44/live
+#使用ffplay播放 ffplay rtmp://192.168.1.44/live  -fflags nobuffer

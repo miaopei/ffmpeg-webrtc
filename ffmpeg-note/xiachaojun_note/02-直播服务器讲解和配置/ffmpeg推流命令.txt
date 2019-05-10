@@ -1,0 +1,3 @@
+#在包含ffmpeg执行文件和dll文件的bin目录执行如下命令
+#开始推流测试
+ffmpeg  -i test.flv  -f flv rtmp://192.168.1.44/live

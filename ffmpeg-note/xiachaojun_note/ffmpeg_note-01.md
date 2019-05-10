@@ -51,9 +51,71 @@ $ ffmpeg  -i test.flv  -f flv rtmp://192.168.1.44/live
 #ʹplay ffplay rtmp://192.168.1.44/live  -fflags nobuffer
 ```
 
+```shell
+# error
+CMake Error at cmake_find_modules/Find_openssl.cmake:99 (MESSAGE):
+  Looking for openssl headers - not found
+Call Stack (most recent call first):
+  CMakeLists.txt:46 (INCLUDE)
+$ cmake -DOPENSSL_ROOT_DIR=/usr/local/opt/openssl -DOPENSSL_LIBRARIES=/usr/local/opt/openssl/lib
+```
+
+### 2.2 下载 ffmpeg 工具推流并使用功能 vlc 拉流播放测试
+
+```shell
+$ wget https://nginx.org/download/nginx-1.16.0.tar.gz --no-check-certificate
+$ git clone https://github.com/arut/nginx-rtmp-module.git
+$ ./configure --add-module=/home/miaopei/workdir/test/ffmpet-test/nginx/nginx-rtmp-module 
+$ make
+$ make install
+```
+
+<img src="_asset/ffmpeg工具推流测试.png">
+
+```shell
+# nginx.conf 配置
+rtmp {
+    server {
+        listen 1935;
+        chunk_size 4096;
+        application live {
+            live on;
+        }
+    }
+}
+```
+
+```shell
+# 推流命令
+$ ffmpeg -i test.mp4 -c copy -f flv rtmp://192.168.2.76/live
+```
+
+```shell
+# 网页查看推流的状态
+server {
+    listen 8080;
+    location /stat{
+        rtmp_stat all;
+        rtmp_stat_stylesheet stat.xsl;
+    }
+    location /stat.xsl{
+        root /home/miaopei/workdir/test/ffmpet-test/nginx/nginx-rtmp-module;
+    }
+}
+```
+
+```shell
+Reload config:
+ $ nginx -s reload
+Reopen Logfile:
+ $ nginx -s reopen
+Stop process:
+ $ nginx -s stop
+Waiting on exit process
+ $ nginx -s quit
+```
 
 
-<img src="_asset/">
 
 <img src="_asset/">
 

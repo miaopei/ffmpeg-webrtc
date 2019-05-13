@@ -122,6 +122,8 @@ int main(int argc, char *argv[])
 		return XError(re);
 	}
 	cout << "avformat_write_header " << re << endl;
+
+    // 推流每一帧数据
 	AVPacket pkt;
 	for (;;)
 	{

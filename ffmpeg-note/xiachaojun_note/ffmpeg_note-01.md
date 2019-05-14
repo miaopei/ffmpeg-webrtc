@@ -146,6 +146,59 @@ Waiting on exit process
 > [Mac源码安装使用OpenCV](<https://blog.csdn.net/u010164190/article/details/79108608>)
 >
 > [在MacOS 10.13.2 下编译 OpenCV3.4.0 + OpenCV Contrib 3.4.0 成 Java 库](<https://blog.csdn.net/marksim/article/details/79146346>)
+>
+> [在MacOS上安装OpenCV 3.4(c++)](<https://www.jianshu.com/p/a36d41241ae8>)
+
+OpenCV 源码编译：
+
+```shell
+# 下载 OpenCV 3.4.0
+$ 
+# 解压，进入到 opencv-3.4.0 目录下
+$ mkdir -p build/install
+$ cd build
+$ cmake -G "Unix Makefiles" -j8 -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/Users/miaopei/install/opencv/opencv-3.4.0/build/install ../
+$ make -j8
+$ make install
+# 配置环境变量
+PKG_CONFIG_PATH=$PKG_CONFIG_PATH:Users/miaopei/install/opencv/opencv-3.4.0/lib/pkgconfig
+export PKG_CONFIG_PATH
+export LD_LIBRARY_PATH=Users/miaopei/install/opencv/opencv-3.4.0/bin:SLD_LIBRARY_PATH
+export PATH=${PATH}:Users/miaopei/install/opencv/opencv-3.4.0/lib
+# 测试demo,打印当前版本号
+#include <opencv2/core/utility.hpp>
+#include <iostream>
+int main(int argc, const char* argv[]){
+  std::cout << "Welcome to OpenCV " << CV_VERSION << std::endl; 
+  return 0;
+}
+# Makefile
+CXX ?= g++
+CXXFLAGS += -c -Wall $(shell pkg-config --cflags opencv)
+LDFLAGS += $(shell pkg-config --libs --static opencv)
+all: test_version
+opencv_example: test_version.o; $(CXX) $< -o $@ $(LDFLAGS)
+%.o: %.cpp; $(CXX) $< -o $@ $(CXXFLAGS)
+clean: ; rm -f test_version.o test_version
+```
+
+
+
+<img src="_asset/第一个例子显示图片.png">
+
+<img src="_asset/waitKey.png">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
 
 
 

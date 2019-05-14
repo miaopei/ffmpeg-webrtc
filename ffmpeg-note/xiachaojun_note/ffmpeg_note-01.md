@@ -161,10 +161,10 @@ $ cmake -G "Unix Makefiles" -j8 -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PRE
 $ make -j8
 $ make install
 # 配置环境变量
-PKG_CONFIG_PATH=$PKG_CONFIG_PATH:Users/miaopei/install/opencv/opencv-3.4.0/lib/pkgconfig
+PKG_CONFIG_PATH=$PKG_CONFIG_PATH:Users/miaopei/install/opencv/opencv-3.4.0/build/install/lib/pkgconfig
 export PKG_CONFIG_PATH
-export LD_LIBRARY_PATH=Users/miaopei/install/opencv/opencv-3.4.0/bin:SLD_LIBRARY_PATH
-export PATH=${PATH}:Users/miaopei/install/opencv/opencv-3.4.0/lib
+export LD_LIBRARY_PATH=Users/miaopei/install/opencv/opencv-3.4.0/build/install/bin:SLD_LIBRARY_PATH
+export PATH=${PATH}:Users/miaopei/install/opencv/opencv-3.4.0/build/install/lib
 # 测试demo,打印当前版本号
 #include <opencv2/core/utility.hpp>
 #include <iostream>
@@ -188,21 +188,57 @@ clean: ; rm -f test_version.o test_version
 
 <img src="_asset/waitKey.png">
 
-<img src="_asset/">
+### 4.1 VideoCapture打开摄像头接口讲解和源码分析
 
-<img src="_asset/">
+<img src="_asset/打开摄像头接口说明和源码分析.png">
 
-<img src="_asset/">
+<img src="_asset/创建和清理mat空间.png">
 
-<img src="_asset/">
+<img src="_asset/图像存放方式-连续.png">
 
-<img src="_asset/">
+<img src="_asset/isContinuous.png">
 
-<img src="_asset/">
+<img src="_asset/直接地址访问连续空间.png">
 
-
+<img src="_asset/读取一帧视频.png">
 
 ## 5. 视频采集编码推流和类封装
+
+<img src="_asset/基于opencv采集推流.png">
+
+<img src="_asset/opencv采集rtsp解码.png">
+
+<img src="_asset/sws_getCachedContext.png">
+
+<img src="_asset/sws_scale.png">
+
+<img src="_asset/avcodec_find_encoder.png">
+
+<img src="_asset/avcodec_alloc_context3.png">
+
+<img src="_asset/avcodec_alloc_context3-01.png">
+
+<img src="_asset/gop-01.png">
+
+<img src="_asset/avcodec_send_frame.png">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
 
 
 

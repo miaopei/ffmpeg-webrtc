@@ -222,27 +222,35 @@ clean: ; rm -f test_version.o test_version
 
 <img src="_asset/avcodec_send_frame.png">
 
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-
-
 ## 6. 音频录制编码推流和类封装
+
+<img src="_asset/音频.png">
+
+<img src="_asset/样本类型planar.png">
+
+<img src="_asset/大小端模式.png">
+
+<img src="_asset/一帧数据量.png">
+
+QT音频录制接口：
+
+<img src="_asset/QAudioFormat.png">
+
+<img src="_asset/QAudioInput.png">
+
+<img src="_asset/QIODevice.png">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+
 
 
 
@@ -251,6 +259,28 @@ clean: ; rm -f test_version.o test_version
 
 
 ## 8. XRtmpStreamer 项目完成（界面和美颜）
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

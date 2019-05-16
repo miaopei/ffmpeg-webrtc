@@ -240,23 +240,21 @@ QT音频录制接口：
 
 <img src="_asset/QIODevice.png">
 
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-
-
-
-
 ## 7. 音视频同步编码推流处理
 
+<img src="_asset/视频录制接口封装.png">
 
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
+
+<img src="_asset/">
 
 ## 8. XRtmpStreamer 项目完成（界面和美颜）
 

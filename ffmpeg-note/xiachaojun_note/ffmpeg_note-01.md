@@ -244,43 +244,43 @@ QT音频录制接口：
 
 <img src="_asset/视频录制接口封装.png">
 
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
+<img src="_asset/音视频同步.png">
 
 ## 8. XRtmpStreamer 项目完成（界面和美颜）
 
+直播推流要求实时性，一秒钟25帧，做美颜的总耗时一定要低于40ms（每帧消耗40ms）
+
+现在视频推流一般都是1280 X 720
+
+手机端是基于GPU 第三方库做的计算
+
+美颜算法一般都是基于GPU做的
 
 
 
+<img src="_asset/使用opencv磨皮.png">
 
+<img src="_asset/bilateralFilter双边滤波-边缘平滑.png">
 
+<img src="_asset/">
 
+<img src="_asset/">
 
+<img src="_asset/">
 
+<img src="_asset/">
 
+<img src="_asset/">
 
+<img src="_asset/">
 
+<img src="_asset/">
 
+<img src="_asset/">
 
+<img src="_asset/">
 
-
-
-
-
-
-
-
-
-
+<img src="_asset/">
 
 
 

@@ -157,7 +157,7 @@ $
 # 解压，进入到 opencv-3.4.0 目录下
 $ mkdir -p build/install
 $ cd build
-$ cmake -G "Unix Makefiles" -j8 -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/Users/miaopei/install/opencv/opencv-3.4.0/build/install ../
+$ cmake -G "Unix Makefiles" -j8 -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_OSX_ARCHITECTURES=x86_64 -D CMAKE_INSTALL_PREFIX=/Users/miaopei/install/opencv/opencv-3.4.0/build/install ../
 $ make -j8
 $ make install
 # 配置环境变量

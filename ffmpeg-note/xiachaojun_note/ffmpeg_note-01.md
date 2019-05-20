@@ -262,25 +262,21 @@ QT音频录制接口：
 
 <img src="_asset/bilateralFilter双边滤波-边缘平滑.png">
 
-<img src="_asset/">
+<img src="_asset/自定义过滤器类XFilter.png">
+
+<img src="_asset/XController.png">
+
+<img src="_asset/类图.png">
 
 <img src="_asset/">
 
 <img src="_asset/">
 
-<img src="_asset/">
 
-<img src="_asset/">
 
-<img src="_asset/">
+**头文件尽量不用引用命名空间，因为不知道谁来调用，可能会出现问题**。
 
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
-
-<img src="_asset/">
+**头文件中尽量不要引用第三方库文件，应为涉及到第三方库版本升级之类的，第三方头文件的引用应该在代码中引用**。
 
 
 

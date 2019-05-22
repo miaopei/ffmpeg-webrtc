@@ -15,7 +15,7 @@ using namespace cv;
 
 int main(int argc, char *argv[])
 {
-    Mat src = imread("./001.jpg");
+    Mat src = imread("001.jpg");
 	if (!src.data)
 	{
 		cout << "open file failed!" << endl;
@@ -31,7 +31,6 @@ int main(int argc, char *argv[])
 	moveWindow("image", 600, 100);
 	for (;;)
 	{
-
 		long long b = getTickCount();
 		bilateralFilter(src, image, d, d * 2, d / 2);
 		double sec=(double)(getTickCount() - b) / (double)getTickFrequency();
@@ -41,7 +40,6 @@ int main(int argc, char *argv[])
 		if (k == 'd') d += 2;
 		else if (k == 'f')d -= 2;
 		else break;
-
 	}
 	waitKey(0);
 

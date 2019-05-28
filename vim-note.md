@@ -674,3 +674,209 @@ normal 模式下按 `:` 进入命令行模式
 ### 15.4 一些小功能
 
 - 简单计算器: 在插入模式下，输入 `C-r =`，然后输入表达式，就能在 光标处得到计算结果。
+
+#  将 vim 打造成 source insight
+
+> [vim中C++环境配置 ctags+taglist](<https://blog.csdn.net/lc_910927/article/details/43731611>)
+>
+> [利用ctags + cscope + taglist + nerdtree + srcexpl + trinity将Vim变成source insight](<https://www.robinjin.com/tech/?p=605>)
+
+让 vim 接近于 source insight 的使用方式以下使用了 `ctags + cscope + taglist + nerdtree + srcexpl + trinity` 来达成此目标。
+
+### ctags 
+
+ctags 可以在函式、变数之间自由进行切换，例如某主函式 call 了 funca()，ctags 可以直接跳到 funca 的函式里面、也可使用在变数上
+
+```shell
+$ sudo apt-get install ctags
+```
+
+进入程式目录当中，若是多层的目录则进到最上层的目录，接著输入
+
+- `ctags -R`
+
+接著必须让 vim 知道 tags 需要到哪里找到，先用 vim 打开 vimrc，之后把下面第二段的资讯加进去
+
+```shell
+$ vim ~/.vimrc 
+set tags=./tags,./TAGS,tags;~,TAGS;~
+```
+
+用 vim 进到 `.c .h` 档之后移到函式或变数上即可使用快捷键找到该函式或变数的定义，也可跳回到使用此函式的地方
+
+跳至该函式或变数定义 
+
+- `Ctrl + ] `
+
+跳回使用此函式或变数处 
+
+- `Ctrl + t`
+
+### cscope 
+
+cscope 可以查询函式或变数在哪些地方被使用过，或是函式当中使用了哪些函式
+
+```shell
+$ sudo apt-get install cscope
+```
+
+进入程式目录当中，若是多层的目录则进到最上层的目录，接著输入
+
+- `cscope -Rbqk`
+
+参数说明如下
+
+- R : 将目录及子目录底下的所有文件都建立索引
+- b : 仅建立关联数据库，不导入使用者介面
+- q : 建立 `cscope.in.out` 和 `cscope.po.out`，可增快搜寻速度
+- k : 不搜寻预设会 include 进来的函式 (/usr/include)
+
+进入 vim 的一般指令模式之后必须将 cscope.out 加入
+
+- `:cs add cscope.out`
+
+为了避免每次使用都必须重复输入，因此可将此段加入 vimrc 里，让 vim 自动执行，另外 cscope 的官方网站也提供了建议的 vimrc 设定 
+<http://cscope.sourceforge.net/cscope_maps.vim>
+
+我挑了部分较常使用的加入 `vimrcvim ~/.vimrc` ，将以下设定加入 vimrc，另外建议自行将注解加入
+
+```shell
+set cscopetag
+set csto=0
+
+if filereadable("cscope.out")
+   cs add cscope.out   
+elseif $CSCOPE_DB != ""
+   cs add $CSCOPE_DB
+endif
+set cscopeverbose
+
+nmap zs :cs find s <C-R>=expand("<cword>")<CR><CR>
+nmap zg :cs find g <C-R>=expand("<cword>")<CR><CR>
+nmap zc :cs find c <C-R>=expand("<cword>")<CR><CR>
+nmap zt :cs find t <C-R>=expand("<cword>")<CR><CR>
+nmap ze :cs find e <C-R>=expand("<cword>")<CR><CR>
+nmap zf :cs find f <C-R>=expand("<cfile>")<CR><CR>
+nmap zi :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+nmap zd :cs find d <C-R>=expand("<cword>")<CR><CR>
+```
+
+其中最后的 nmap 部分为快捷键，其中的第一行指的是可使用 zs 取代在 vim 里输入 `:cs find s {name}` 的指令，后面依此类拖 
+
+官网给的设定档快捷键为 `Ctrl+/+s` 的组合，不过我是用 VIM7.4，对于三个以上的组合键似乎有使用上的问题，这部分还没找到解决方式，因此就先用两个的组合键
+
+最后附上各指令的用途
+
+```shell
+:cs find s {name} : 找出C语言name的符号
+:cs find g {name} : 找出name定义的地方
+:cs find c {name} : 找出使用name的地方
+:cs find t {name} : 找出name的字串
+:cs find e {name} : 相当于egrep功能，但速度更佳
+:cs find f {name} : 寻找档案
+:cs find i {name} : 寻找include此档案的档案
+:cs find d {name} : 寻找name里面使用到的函式
+```
+
+### taglist
+
+taglist 可在切出一区块，显示此档案里的 macro，global variable，函式等资讯，且会随著浏览到哪个地方便以不同颜色标示
+
+下载 plugin file，下载地址如下，请自行选择最新版本下载
+
+<http://sourceforge.net/projects/vim-taglist/files/vim-taglist>
+
+将 `plugin/taglist.vim` 复制到 `~/.vim/plugin/`，`doc/taglist.txt` 复制到 `~/.vim/doc`
+
+可在~/.vimrc里配置相关设定，其他配置选项请参考官网说明
+
+```shell
+nmap :TlistToggle 
+let Tlist_Show_One_File=1 
+let Tlist_Exit_OnlyWindow=1 
+set ut=100
+
+# nmap : 将F8设为开启taglist的快捷键
+# Tlist_Show_One_File : 只显示当下浏览档案的func，不显示之前浏览的档案
+# Tlist_Exit_OnlyWindow : 如果taglist区块是最后一个，则退出vim
+# ut=100 : taglist会标示目前在操作哪个function or variable，但更新速度很慢，这里把更新速度设成100ms
+```
+
+### nerdtree
+
+NERD tree可切出一区块，显示根目录开始的档案结构，且可由 list 直接跳到选取的档案
+
+下载 plugin file，下载地址如下，请自行选择最新版本下载
+
+<http://www.vim.org/scripts/script.php?script_id=1658>
+
+将 `plugin/NERD_tree.vim` 复制到 `~/.vim/plugin/`，`doc/NERD_tree.txt` 复制到 `~/.vim/doc` 
+
+剩下的资料夹 `autoload, lib, nerdtree_plugin, syntax` 全部复制到 `~/.vim` 底下
+
+可在 `~/.vimrc` 里配置相关设定，其他配置选项请参考官网说明
+
+```shell
+nmap :NERDTreeFind 
+let NERDTreeWinPos=1
+
+# nmap : 将F9设为开启nerdtree的快捷键
+# NERDTreeWinPos : 将nerdtree区块放在右边
+```
+
+### SrcExpl(Source Explorer)
+
+SrcExpl 可以将当下 function 的定义显示出来，或是将当下的变数宣告处显示出来
+
+使用 git 下载 plugin 档
+
+```shell
+$ git clone https://github.com/wesleyche/SrcExpl
+```
+
+将 `plugin/srcexpl.vim` 复制到 `~/.vim/plugin/`，`doc/srcexpl.txt` 复制到 `~/.vim/doc`
+
+官方网站有详细介绍在.vimrc可用的设定，这里只列出我有用到的设定
+
+```shell
+nmap :SrcExplToggle 
+let g:SrcExpl_pluginList = [ 
+\”**Tag_List**“, 
+\”*NERD_tree*” 
+\ 
+]
+
+# nmap : 将F10设为开启srcexpl的快捷键
+# 若有安装taglist or nerdtree则需输入
+```
+
+### trinity
+
+trinity 用来整合 `taglist, nerdtree, srcexpl`，使可以一键开启三个 plgin 的功能
+
+使用 git 下载 plugin 档
+
+```shell
+$ git clone https://github.com/wesleyche/Trinity
+```
+
+将 `plugin/trinity.vim` 复制到 `~/.vim/plugin/`
+
+接著设定 vimrc
+
+```shell
+nmap :TrinityToggleAll
+
+# nmap : 将F7设为一次打开taglist, nerdtree, srcexpl的快捷键
+```
+
+<img src="_asset/vim-majia.png">
+
+
+
+
+
+
+
+
+

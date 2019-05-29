@@ -1,79 +1,23 @@
-# VIM 快捷键
+# VIM 编程 快捷键
 
 > [Vim使用笔记](https://www.cnblogs.com/jiqingwu/archive/2012/06/14/vim_notes.html)
 
-## 1. 关于Vim
+## 1. 文档操作
 
-vim是我最喜欢的编辑器，也是linux下第二强大的编辑器。 虽然emacs是公认的世界第一，我认为使用emacs并没有使用vi进行编辑来得高效。 如果是初学 vi，运行一下 vimtutor 是个聪明的决定。 （如果你的系统环境不是中文，而你想使用中文的vimtutor，就运行vimtutor zh）
-
-### 1.1 Vim的几种模式
-
-- 正常模式：可以使用快捷键命令，或按:输入命令行。
-- 插入模式：可以输入文本，在正常模式下，按 `i、a、o` 等都可以进入插入模式。
-- 可视模式：正常模式下按 `v` 可以进入可视模式， 在可视模式下，移动光标可以选择文本。按 `V` 进入可视行模式， 总是整行整行的选中。`ctrl+v` 进入可视块模式。
-- 替换模式：正常模式下，按R进入。
-
-## 2. 启动Vim
-
-- `vim -c cmd file` : 在打开文件前，先执行指定的命令；
-- `vim -r file` : 恢复上次异常退出的文件；
-- `vim -R file` : 以只读的方式打开文件，但可以强制保存；
-- `vim -M file` : 以只读的方式打开文件，不可以强制保存；
-- `vim -y num file` : 将编辑窗口的大小设为 num 行；
-- `vim + file` : 从文件的末尾开始；
-- `vim +num file` : 从第 num 行开始；
-- `vim +/string file` : 打开 file，并将光标停留在第一个找到的 string 上。
-- `vim --remote file` : 用已有的 vim 进程打开指定的文件。 如果你不想启用多个 vim 会话，这个很有用。但要注意， 如果你用 vim，会寻找名叫 VIM 的服务器；如果你已经有一个 gvim 在运行了， 你可以用 `gvim --remote file` 在已有的 gvim 中打开文件。
-
-## 3. 文档操作
-
-- `:e file` -- 关闭当前编辑的文件，并开启新的文件。 如果对当前文件的修改未保存，vi 会警告。
-- `:e! file` -- 放弃对当前文件的修改，编辑新的文件。
-- `:e+file` -- 开始新的文件，并从文件尾开始编辑。
-- `:e+n file` -- 开始新的文件，并从第 n 行开始编辑。
-- `:enew` -- 编译一个未命名的新文档。( `CTRL-W n` )
 - `:e` -- 重新加载当前文档。
 - `:e!` -- 重新加载当前文档，并丢弃已做的改动。
+- `:e file` -- 关闭当前编辑的文件，并开启新的文件。 如果对当前文件的修改未保存，vi 会警告。
+- `:e! file` -- 放弃对当前文件的修改，编辑新的文件。
 - `:e# 或 ctrl+^` -- 回到刚才编辑的文件，很实用。
-- `:f 或 ctrl+g` -- 显示文档名，是否修改，和光标位置。
-- `:f filename` -- 改变编辑的文件名，这时再保存相当于另存为。
 - `gf` -- 打开以光标所在字符串为文件名的文件。
-- `:w` -- 保存修改。
-- `:n1,n2w filename` -- 选择性保存从某n1行到另n2行的内容。
-- `:wq` -- 保存并退出。
-- `ZZ` -- 保存并退出。
-- `:x` -- 保存并退出。
-- `:q[uit]` —— 退出当前窗口。( `CTRL-W q` 或 `CTRL-W CTRL-Q`)
 - `:saveas newfilename` -- 另存为
-- `:browse e` -- 会打开一个文件浏览器让你选择要编辑的文件。 如果是终端中，则会打开 netrw 的文件浏览窗口； 如果是 gvim，则会打开一个图形界面的浏览窗口。 实际上 `:browse` 后可以跟任何编辑文档的命令，如 sp 等。 用 browse 打开的起始目录可以由 browsedir 来设置：
-  - `:set browsedir=last` -- 用上次访问过的目录（默认）；
-  - `:set browsedir=buffer` -- 用当前文件所在目录；
-  - `:set browsedir=current` -- 用当前工作目录；
-- `:Sex` -- 水平分割一个窗口，浏览文件系统；
-- `:Vex` -- 垂直分割一个窗口，浏览文件系统；
 
-## 4. 光标的移动
+## 2. 光标的移动
 
-### 4.1 基本移动
-
-以下移动都是在 normal 模式下。
-
-- `h` :或退格: 左移一个字符；
-- `l` :或空格: 右移一个字符；
-- `j` : 下移一行；
-- `k` : 上移一行；
 - `gj` : 移动到一段内的下一行；
 - `gk` : 移动到一段内的上一行；
-- `+或Enter` : 把光标移至下一行第一个非空白字符。
-- `-` : 把光标移至上一行第一个非空白字符。
 - `w` : 前移一个单词，光标停在下一个单词开头；
-- `W` : 移动下一个单词开头，但忽略一些标点；
-- `e` : 前移一个单词，光标停在下一个单词末尾；
-- `E` : 移动到下一个单词末尾，如果词尾有标点，则移动到标点；
 - `b` : 后移一个单词，光标停在上一个单词开头；
-- `B` : 移动到上一个单词开头，忽略一些标点；
-- `ge` : 后移一个单词，光标停在上一个单词末尾；
-- `gE` : 同 ge ，不过 ‘单词’ 包含单词相邻的标点。
 - `(` : 前移1句。
 - `)` : 后移1句。
 - `{` : 前移1段。
@@ -103,7 +47,7 @@ vim是我最喜欢的编辑器，也是linux下第二强大的编辑器。 虽�
 - `gg` : 到文件头部。
 - `G` : 到文件尾部。
 
-### 4.2 翻屏
+### 2.1 翻屏
 
 - `ctrl+f` : 下翻一屏。
 - `ctrl+b` : 上翻一屏。
@@ -116,7 +60,7 @@ vim是我最喜欢的编辑器，也是linux下第二强大的编辑器。 虽�
 - `zt` : 将当前行移动到屏幕顶端。
 - `zb` : 将当前行移动到屏幕底端。
 
-### 4.3 标记
+### 2.2 标记
 
 使用标记可以快速移动。到达标记后，可以用 `Ctrl+o` 返回原来的位置。 `Ctrl+o` 和 `Ctrl+i` 很像浏览器上的 *后退* 和 *前进* 。
 
@@ -135,22 +79,15 @@ vim是我最喜欢的编辑器，也是linux下第二强大的编辑器。 虽�
 - `:delmarks!` -- 删除当前缓冲区的所有标记。
 - `:help mark-motions`  -- 查看更多关于 mark 的知识。
 
-## 5. 插入文本
+## 3. 插入文本
 
-### 5.1 基本插入
+### 3.1 基本插入
 
 - `i` : 在光标前插入；一个小技巧：按 8，再按 `i`，进入插入模式，输入 `=`， 按 `esc` 进入命令模式，就会出现 8 个 `=` 。 这在插入分割线时非常有用，如`30i+<esc>` 就插入了 36 个 `+` 组成的分割线。
-- `I` : 在当前行第一个非空字符前插入；
-- `gI` : 在当前行第一列插入；
-- `a` : 在光标后插入；
-- `A` : 在当前行最后插入；
-- `o` : 在下面新建一行插入；
-- `O` : 在上面新建一行插入；
 - `:r filename` : 在当前位置插入另一个文件的内容。
-- `:[n]r filename` : 在第 n 行插入另一个文件的内容。
 - `:r !date` :  在光标处插入当前日期与时间。同理，`:r !command` 可以将其它 shell 命令的输出插入当前文档。
 
-### 5.2 改写插入
+### 3.2 改写插入
 
 - `c[n]w` : 改写光标后 1(n) 个词。
 - `c[n]l` : 改写光标后 n 个字母。
@@ -161,9 +98,9 @@ vim是我最喜欢的编辑器，也是linux下第二强大的编辑器。 虽�
 
 注意，类似 `cnw,dnw,ynw` 的形式同样可以写为 `ncw,ndw,nyw`。
 
-## 6. 剪切复制和寄存器
+## 4. 剪切复制和寄存器
 
-### 6.1 剪切和复制、粘贴
+### 4.1 剪切和复制、粘贴
 
 - `[n]x` : 剪切光标右边 n 个字符，相当于 `d[n]l`。
 - `[n]X` : 剪切光标左边 n 个字符，相当于 `d[n]h`。
@@ -193,7 +130,7 @@ vim是我最喜欢的编辑器，也是linux下第二强大的编辑器。 虽�
 - `p`: 在光标之后粘贴。
 - `P` : 在光标之前粘贴。
 
-### 6.2 文本对象
+### 4.2 文本对象
 
 - `aw`：一个词
 - `as`：一句。
@@ -202,7 +139,7 @@ vim是我最喜欢的编辑器，也是linux下第二强大的编辑器。 虽�
 
 `y, d, c, v` 都可以跟文本对象。
 
-### 6.3 寄存器
+### 4.3 寄存器
 
 - `a-z`：都可以用作寄存器名。`"ayy` 把当前行的内容放入 a 寄存器。
 - `A-Z`：用大写字母索引寄存器，可以在寄存器中追加内容。 如 `"Ayy` 把当前行的内容追加到 a 寄存器中。
@@ -211,9 +148,9 @@ vim是我最喜欢的编辑器，也是linux下第二强大的编辑器。 虽�
 - `"*`：当前选择缓冲区，`"*yy` 把当前行的内容放入当前选择缓冲区。
 - `"+`：系统剪贴板。`"+yy` 把当前行的内容放入系统剪贴板。
 
-## 7. 查找与替换
+## 5. 查找与替换
 
-### 7.1 查找
+### 5.1 查找
 
 - `/something` : 在后面的文本中查找 something。
 - `?something` : 在前面的文本中查找 something。
@@ -236,7 +173,7 @@ vimgrep 前面可以加数字限定搜索结果的上限，如 `:1vim/pattern/ %
 
 比如电子书中每一节的标题形式为：`n. xxxx`。你就可以这样：`:vim/^d{1,}./ %` 然后用 `:cw` 或 `:copen` 查看结果，可以用 `C-w H` 把 quickfix 窗口移到左侧，就更像个目录了。
 
-### 7.2 替换
+### 5.2 替换
 
 - `:s/old/new` -- 用 new 替换当前行第一个 old。
 - `:s/old/new/g` -- 用 new 替换当前行所有的 old。
@@ -263,7 +200,7 @@ vimgrep 前面可以加数字限定搜索结果的上限，如 `:1vim/pattern/ %
 - `.` : 当前行
 - `%` : 所有行
 
-### 7.3 正则表达式
+### 5.3 正则表达式
 
 高级的查找替换就要用到正则表达式。
 
@@ -279,42 +216,9 @@ vimgrep 前面可以加数字限定搜索结果的上限，如 `:1vim/pattern/ %
 
 `:help pattern` 得到更多帮助。
 
-## 8. 排版
+## 6. 编辑多个文件
 
-### 8.1 基本排版
-
-- `<<`  向左缩进一个 shiftwidth
-- `>>` 向右缩进一个 shiftwidth
-- `:ce(nter)` 本行文字居中
-- `:le(ft)` 本行文字靠左
-- `:ri(ght)` 本行文字靠右
-- `gq` 对选中的文字重排，即对过长的文字进行断行
-- `gqq` 重排当前行
-- `gqnq` 重排 n 行
-- `gqap` 重排当前段
-- `gqnap`  重排 n 段
-- `gqnj` 重排当前行和下面 n 行
-- `gqQ` 重排当前段对文章末尾
-- `J` 拼接当前行和下一行
-- `gJ 同 J` ，不过合并后不留空格。
-
-### 8.2 拼写检查
-
-- `:set spell`－开启拼写检查功能
-- `:set nospell`－关闭拼写检查功能
-- `]s`－移到下一个拼写错误的单词
-- `[s`－作用与上一命令类似，但它是从相反方向进行搜索
-- `z=`－显示一个有关拼写错误单词的列表，可从中选择
-- `zg`－告诉拼写检查器该单词是拼写正确的
-- `zw`－与上一命令相反，告诉拼写检查器该单词是拼写错误的
-
-### 8.3 统计字数
-
-`g ^g` 可以统计文档字符数，行数。 将光标放在最后一个字符上，用字符数减去行数可以粗略统计中文文档的字数。 以上对 Mac 或 Unix 的文件格式适用。 如果是 Windows 文件格式（即换行符有两个字节），字数的统计方法为： `字符数 - 行数 * 2`。
-
-## 9. 编辑多个文件
-
-### 9.1 一次编辑多个文件
+### 6.1 一次编辑多个文件
 
 我们可以一次打开多个文件，如
 
@@ -332,7 +236,7 @@ $ vi a.txt b.txt c.txt
 - `vi -o filenames` 在水平分割的多个窗口中编辑多个文件。
 - `vi -O filenames` 在垂直分割的多个窗口中编辑多个文件。
 
-### 9.2 多标签编辑
+### 6.2 多标签编辑
 
 - `vim -p files` : 打开多个文件，每个文件占用一个标签页。
 - `:tabe, tabnew` -- 如果加文件名，就在新的标签中打开这个文件， 否则打开一个空缓冲区。
@@ -346,7 +250,7 @@ $ vi a.txt b.txt c.txt
 - `:tabs` -- 列出所有的标签页和它们包含的窗口。
 - `:tabm[ove] [N]` -- 移动标签页，移动到第N个标签页之后。 如 tabm 0 当前标签页，就会变成第一个标签页。
 
-### 9.3 缓冲区
+### 6.3 缓冲区
 
 - `:buffers 或 :ls 或 :files` 显示缓冲区列表。
 - `ctrl+^`：在最近两个缓冲区间切换。
@@ -358,12 +262,12 @@ $ vi a.txt b.txt c.txt
 - `:nbd(elete)` -- 删除第 n 个缓冲区，并未真正删除，还在 unlisted 列表中。
 - `:ba[ll]` -- 把所有的缓冲区在当前页中打开，每个缓冲区占一个窗口。
 
-## 10. 分屏编辑
+## 7. 分屏编辑
 
 - `vim -o file1 file2` : 水平分割窗口，同时打开 file1 和 file2
 - `vim -O file1 file2` : 垂直分割窗口，同时打开 file1 和 file2
 
-### 10.1 水平分割
+### 7.1 水平分割
 
 - `:split(:sp)` -- 把当前窗水平分割成两个窗口。(`CTRL-W s` 或 `CTRL-W CTRL-S`) 注意如果在终端下，`CTRL-S` 可能会冻结终端，请按 `CTRL-Q` 继续。
 - `:split filename` -- 水平分割窗口，并在新窗口中显示另一个文件。
@@ -372,20 +276,20 @@ $ vi a.txt b.txt c.txt
 - `ctrl+w f` --水平分割出一个窗口，并在新窗口打开名称为光标所在词的文件 。
 - `C-w C-^` -- 水平分割一个窗口，打开刚才编辑的文件。
 
-### 10.2 垂直分割
+### 7.2 垂直分割
 
 - `:vsplit(:vsp)` -- 把当前窗口分割成水平分布的两个窗口。 (`CTRL-W v` 或 `CTRL CTRL-V`)
 - `:[N]vne[w]` -- 垂直分割出一个新窗口。
 - `:vertical 水平分割的命令`： 相应的垂直分割。
 
-### 10.3 关闭子窗口
+### 7.3 关闭子窗口
 
 - `:qall` -- 关闭所有窗口，退出 vim。
 - `:wall` -- 保存所有修改过的窗口。
 - `:only` -- 只保留当前窗口，关闭其它窗口。(`CTRL-W o`)
 - `:close` -- 关闭当前窗口，`CTRL-W c`能实现同样的功能。 (象 `:q :x` 同样工作 )
 
-### 10.4 调整窗口大小
+### 7.4 调整窗口大小
 
 - `ctrl+w +` --当前窗口增高一行。也可以用 n 增高 n 行。
 - `ctrl+w -` --当前窗口减小一行。也可以用 n 减小 n 行。
@@ -397,7 +301,7 @@ $ vi a.txt b.txt c.txt
 - `ctrl+w >` --当前窗口增宽一列。也可以用 n 增宽 n 列。
 - `ctrl+w |` --当前窗口尽可能的宽。也可以用 n 设定列数。
 
-### 10.5 切换和移动窗口
+### 7.5 切换和移动窗口
 
 如果支持鼠标，切换和调整子窗口的大小就简单了。
 
@@ -409,20 +313,20 @@ $ vi a.txt b.txt c.txt
 - `ctrl+w r`：旋转窗口的位置。
 - `ctrl+w T` : 将当前的窗口移动到新的标签页上。
 
-## 11. 快速编辑
+## 8. 快速编辑
 
-### 11.1 改变大小写
+### 8.1 改变大小写
 
 - `~` : 反转光标所在字符的大小写。
 - 可视模式下的 U 或 u：把选中的文本变为大写或小写。
 - `gu(U)` 接范围（如`$`，或 `G`），可以把从光标当前位置到指定位置之间字母全部 转换成小写或大写。如`ggguG`，就是把开头到最后一行之间的字母全部变为小 写。再如 `gu5j`，把当前行和下面四行全部变成小写。
 
-### 11.2 替换（normal模式）
+### 8.2 替换（normal模式）
 
 - `r` : 替换光标处的字符，同样支持汉字。
 - `R` : 进入替换模式，按 `esc` 回到正常模式。
 
-### 11.3 撤消与重做（normal模式）
+### 8.3 撤消与重做（normal模式）
 
 - `[n] u` : 取消一(n)个改动。
 - `:undo 5` -- 撤销 5 个改变。
@@ -432,16 +336,16 @@ $ vi a.txt b.txt c.txt
 - `:earlier 4m` -- 回到 4 分钟前
 - `:later 55s` -- 前进 55 秒
 
-### 11.4 宏
+### 8.4 宏
 
 - `.` --重复上一个编辑动作
 - `qa`：开始录制宏 a（键盘操作记录）
 - `q`：停止录制
 - `@a`：播放宏 a
 
-## 12. 编辑特殊文件
+## 9. 编辑特殊文件
 
-### 12.1 文件加解密
+### 9.1 文件加解密
 
 - `vim -x file` : 开始编辑一个加密的文件。
 - `:X` -- 为当前文件设置密码。
@@ -449,7 +353,7 @@ $ vi a.txt b.txt c.txt
 
 [这里是](http://www.cnblogs.com/jiqingwu/admin/vim-quick-edit.html) 滇狐总结的比较高级的 vi 技巧。
 
-### 12.2 文件的编码
+### 9.2 文件的编码
 
 - `:e ++enc=utf8 filename`, 让 vim 用 utf-8 的编码打开这个文件。
 - `:w ++enc=gbk`，不管当前文件什么编码，把它转存成 gbk 编码。
@@ -458,7 +362,7 @@ $ vi a.txt b.txt c.txt
 
 让 vim 正确处理文件格式和文件编码，有赖于 [~/.vimrc的正确配置](http://www.cnblogs.com/jiqingwu/admin/vimrc.html)
 
-### 12.3 文件格式
+### 9.3 文件格式
 
 大致有三种文件格式：unix, dos, mac. 三种格式的区别主要在于回车键的编码：dos 下是回车加换行，unix 下只有 换行符，mac 下只有回车符。
 
@@ -467,9 +371,9 @@ $ vi a.txt b.txt c.txt
 - `:set ff`，显示当前文件的格式。
 - 在 vimrc 中添加 `set fileformats=unix,dos,mac`，让 vim 自动识别文件格式。
 
-## 13. 编程辅助
+## 10. 编程辅助
 
-### 13.1 一些按键
+### 10.1 一些按键
 
 - `gd` : 跳转到局部变量的定义处；
 - `gD` : 跳转到全局变量的定义处，从当前文件开头开始搜索；
@@ -500,7 +404,17 @@ $ vi a.txt b.txt c.txt
 - `ci<, di<, yi<`：修改、剪切或复制 `<>` 之间的内容。
 - `ca<, da<, ya<`：修改、剪切或复制 `<>` 之间的内容，包含`<>`。
 
-### 13.2 ctags
+### 10.2 ctags
+
+| `Ctrl + ]` | 找到光标所在位置的标签定义的地方                             |
+| :--------- | ------------------------------------------------------------ |
+| `Ctrl + T` | 回到跳转之前的标签处                                         |
+| `Ctrl + o` | 退回原来的地方                                               |
+| `[I`       | 查找全局标识符. Vim会列出它所找出的匹配行，<br />不仅在当前文件内查找，还会在所有的包含文件中查找 |
+| `[i`       | 从当前文件起始位置开始查找第一处包含光标所指关键字的位置     |
+| `]i`       | 类似上面的 `[i`，但这里是从光标当前位置开始往下搜索          |
+| `[{`       | 转到上一个位于第一列的”{“。（前提是 “{” 和 “}” 都在第一列。） |
+| `]}`       | 转到下一个位于第一列的”}”                                    |
 
 - `ctags -R` : 生成 tag 文件，`-R` 表示也为子目录中的文件生成 tags
 - `:set tags=path/tags` -- 告诉 ctags 使用哪个 tag 文件
@@ -524,14 +438,14 @@ tab 键补齐
 - `:tag xyz<tab>` -- 补齐以 xyz 开头的 tag 名，继续按 tab 键，会显示其他的。
 - `:tag /xyz<tab>` -- 会用名字中含有 xyz 的 tag 名补全。
 
-### 13.3 cscope
+### 10.3 cscope
 
 - `cscope -Rbq` : 生成 cscope.out 文件
 - `:cs add /path/to/cscope.out /your/work/dir`
 - `:cs find c func` -- 查找 func 在哪些地方被调用
 - `:cw` -- 打开 quickfix 窗口查看结果
 
-### 13.4 gtags
+### 10.4 gtags
 
 Gtags 综合了 ctags 和 cscope 的功能。 使用 Gtags 之前，你需要安装 GNU Gtags。 然后在工程目录运行 gtags 。
 
@@ -542,7 +456,7 @@ Gtags 综合了 ctags 和 cscope 的功能。 使用 Gtags 之前，你需要安
 - `:Gtags -f filename` 显示 filename 中的函数列表。 你可以用 `:Gtags -f %` 显示当前文件。
 - `:Gtags -P pattern` 显示路径中包含特定模式的文件。 如 `:Gtags -P .h$` 显示所有头文件， `:Gtags -P /vm/` 显示 vm 目录下的文件。
 
-### 13.5 编译
+### 10.5 编译
 
 vim 提供了 `:make` 来编译程序，默认调用的是 make， 如果你当前目录下有 makefile，简单地 `:make` 即可。
 
@@ -560,7 +474,7 @@ set makeprg=javac\ abc.java
 
 `%f` 表示文件名，`%l` 表示行号， `%m` 表示错误信息，其它的还不能理解。 请参考 `:help errorformat`。
 
-### 13.6 快速修改窗口
+### 10.6 快速修改窗口
 
 其实是 quickfix 插件提供的功能， 对编译调试程序非常有用 
 
@@ -574,7 +488,7 @@ set makeprg=javac\ abc.java
 - `:cp` -- 定位到上一个错误。
 - `:cr` -- 定位到第一个错误。
 
-### 13.7 自动补全
+### 10.7 自动补全
 
 - `C-x C-s` -- 拼写建议。
 - `C-x C-v` -- 补全 vim 选项和命令。
@@ -593,7 +507,7 @@ set makeprg=javac\ abc.java
 - `C-e` 退出下拉菜单，并退回到原来录入的文字；
 - `C-y` 退出下拉菜单，并接受当前选项。
 
-### 13.8 多行缩进缩出
+### 10.8 多行缩进缩出
 
 - 正常模式下，按两下 `>;` 光标所在行会缩进。
 - 如果先按了 n，再按两下 `>;`，光标以下的 n 行会缩进。
@@ -602,7 +516,7 @@ set makeprg=javac\ abc.java
 - 在可视模式下，选择要调整的代码块，按 `=`，代码会按书写规则缩排好。
 - 或者 `n =`，调整 n 行代码的缩排。
 
-### 13.9 折叠
+### 10.9 折叠
 
 - `zf` -- 创建折叠的命令，可以在一个可视区域上使用该命令；
 - `zd` -- 删除当前行的折叠；
@@ -619,42 +533,15 @@ set makeprg=javac\ abc.java
 - `zk` -- 跳到上一个折叠处；
 - `zi -- enable/disable fold`;
 
-## 14. 命令行
+## 11. 其它
 
-normal 模式下按 `:` 进入命令行模式
-
-### 14.1 命令行模式下的快捷键：
-
-- 上下方向键：上一条或者下一条命令。如果已经输入了部分命令，则找上一 条或者下一条匹配的命令。
-- 左右方向键：左/右移一个字符。
-- `C-w`： 向前删除一个单词。
-- `C-h`： 向前删除一个字符，等同于 Backspace。
-- `C-u`： 从当前位置移动到命令行开头。
-- `C-b`： 移动到命令行开头。
-- `C-e`： 移动到命令行末尾。
-- `Shift-Left`： 左移一个单词。
-- `Shift-Right`： 右移一个单词。
-- `@`： 重复上一次的冒号命令。
-- `q`： 正常模式下，`q` 然后按 `':'`，打开命令行历史缓冲区， 可以像编辑文件一样编辑命令。
-- `q/ 和 q?` 可以打开查找历史记录。
-
-### 14.2 执行外部命令
-
-- `:! cmd` 执行外部命令。
-- `:!!` 执行上一次的外部命令。
-- `:sh` 调用 shell，用 exit 返回 vim。
-- `:r !cmd` 将命令的返回结果插入文件当前位置。
-- `:m,nw !cmd` 将文件的 m 行到 n 行之间的内容做为命令输入执行命令。
-
-## 15. 其它
-
-### 15.1 工作目录
+### 11.1 工作目录
 
 - `:pwd` 显示vim的工作目录。
 - `:cd path` 改变 vim 的工作目录。
 - `:set autochdir`  可以让 vim 根据编辑的文件自动切换工作目录。
 
-### 15.2 一些快捷键（收集中）
+### 11.2 一些快捷键（收集中）
 
 - `K` : 打开光标所在词的 manpage。
 - `*` : 向下搜索光标所在词。
@@ -663,7 +550,7 @@ normal 模式下按 `:` 进入命令行模式
 - `g#` : 同上，但部分符合即可。
 - `g C-g` : 统计全文或统计部分的字数。
 
-### 15.3 在线帮助
+### 11.3 在线帮助
 
 - `:h(elp) 或 F1` 打开总的帮助。
 - `:help user-manual` 打开用户手册。
@@ -673,206 +560,25 @@ normal 模式下按 `:` 进入命令行模式
 - `Ctrl+]` 跳转到 tag 主题，`Ctrl+t` 跳回。
 - `:ver` 显示版本信息。
 
-### 15.4 一些小功能
 
-- 简单计算器: 在插入模式下，输入 `C-r =`，然后输入表达式，就能在 光标处得到计算结果。
 
-#  将 vim 打造成 source insight
 
-> [vim中C++环境配置 ctags+taglist](<https://blog.csdn.net/lc_910927/article/details/43731611>)
->
-> [利用ctags + cscope + taglist + nerdtree + srcexpl + trinity将Vim变成source insight](<https://www.robinjin.com/tech/?p=605>)
 
-让 vim 接近于 source insight 的使用方式以下使用了 `ctags + cscope + taglist + nerdtree + srcexpl + trinity` 来达成此目标。
 
-### ctags 
 
-ctags 可以在函式、变数之间自由进行切换，例如某主函式 call 了 funca()，ctags 可以直接跳到 funca 的函式里面、也可使用在变数上
 
-```shell
-$ sudo apt-get install ctags
-```
 
-进入程式目录当中，若是多层的目录则进到最上层的目录，接著输入
 
-- `ctags -R`
 
-接著必须让 vim 知道 tags 需要到哪里找到，先用 vim 打开 vimrc，之后把下面第二段的资讯加进去
 
-```shell
-$ vim ~/.vimrc 
-set tags=./tags,./TAGS,tags;~,TAGS;~
-```
 
-用 vim 进到 `.c .h` 档之后移到函式或变数上即可使用快捷键找到该函式或变数的定义，也可跳回到使用此函式的地方
 
-跳至该函式或变数定义 
 
-- `Ctrl + ] `
 
-跳回使用此函式或变数处 
 
-- `Ctrl + t`
 
-### cscope 
 
-cscope 可以查询函式或变数在哪些地方被使用过，或是函式当中使用了哪些函式
 
-```shell
-$ sudo apt-get install cscope
-```
-
-进入程式目录当中，若是多层的目录则进到最上层的目录，接著输入
-
-- `cscope -Rbqk`
-
-参数说明如下
-
-- R : 将目录及子目录底下的所有文件都建立索引
-- b : 仅建立关联数据库，不导入使用者介面
-- q : 建立 `cscope.in.out` 和 `cscope.po.out`，可增快搜寻速度
-- k : 不搜寻预设会 include 进来的函式 (/usr/include)
-
-进入 vim 的一般指令模式之后必须将 cscope.out 加入
-
-- `:cs add cscope.out`
-
-为了避免每次使用都必须重复输入，因此可将此段加入 vimrc 里，让 vim 自动执行，另外 cscope 的官方网站也提供了建议的 vimrc 设定 
-<http://cscope.sourceforge.net/cscope_maps.vim>
-
-我挑了部分较常使用的加入 `vimrcvim ~/.vimrc` ，将以下设定加入 vimrc，另外建议自行将注解加入
-
-```shell
-set cscopetag
-set csto=0
-
-if filereadable("cscope.out")
-   cs add cscope.out   
-elseif $CSCOPE_DB != ""
-   cs add $CSCOPE_DB
-endif
-set cscopeverbose
-
-nmap zs :cs find s <C-R>=expand("<cword>")<CR><CR>
-nmap zg :cs find g <C-R>=expand("<cword>")<CR><CR>
-nmap zc :cs find c <C-R>=expand("<cword>")<CR><CR>
-nmap zt :cs find t <C-R>=expand("<cword>")<CR><CR>
-nmap ze :cs find e <C-R>=expand("<cword>")<CR><CR>
-nmap zf :cs find f <C-R>=expand("<cfile>")<CR><CR>
-nmap zi :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
-nmap zd :cs find d <C-R>=expand("<cword>")<CR><CR>
-```
-
-其中最后的 nmap 部分为快捷键，其中的第一行指的是可使用 zs 取代在 vim 里输入 `:cs find s {name}` 的指令，后面依此类拖 
-
-官网给的设定档快捷键为 `Ctrl+/+s` 的组合，不过我是用 VIM7.4，对于三个以上的组合键似乎有使用上的问题，这部分还没找到解决方式，因此就先用两个的组合键
-
-最后附上各指令的用途
-
-```shell
-:cs find s {name} : 找出C语言name的符号
-:cs find g {name} : 找出name定义的地方
-:cs find c {name} : 找出使用name的地方
-:cs find t {name} : 找出name的字串
-:cs find e {name} : 相当于egrep功能，但速度更佳
-:cs find f {name} : 寻找档案
-:cs find i {name} : 寻找include此档案的档案
-:cs find d {name} : 寻找name里面使用到的函式
-```
-
-### taglist
-
-taglist 可在切出一区块，显示此档案里的 macro，global variable，函式等资讯，且会随著浏览到哪个地方便以不同颜色标示
-
-下载 plugin file，下载地址如下，请自行选择最新版本下载
-
-<http://sourceforge.net/projects/vim-taglist/files/vim-taglist>
-
-将 `plugin/taglist.vim` 复制到 `~/.vim/plugin/`，`doc/taglist.txt` 复制到 `~/.vim/doc`
-
-可在~/.vimrc里配置相关设定，其他配置选项请参考官网说明
-
-```shell
-nmap :TlistToggle 
-let Tlist_Show_One_File=1 
-let Tlist_Exit_OnlyWindow=1 
-set ut=100
-
-# nmap : 将F8设为开启taglist的快捷键
-# Tlist_Show_One_File : 只显示当下浏览档案的func，不显示之前浏览的档案
-# Tlist_Exit_OnlyWindow : 如果taglist区块是最后一个，则退出vim
-# ut=100 : taglist会标示目前在操作哪个function or variable，但更新速度很慢，这里把更新速度设成100ms
-```
-
-### nerdtree
-
-NERD tree可切出一区块，显示根目录开始的档案结构，且可由 list 直接跳到选取的档案
-
-下载 plugin file，下载地址如下，请自行选择最新版本下载
-
-<http://www.vim.org/scripts/script.php?script_id=1658>
-
-将 `plugin/NERD_tree.vim` 复制到 `~/.vim/plugin/`，`doc/NERD_tree.txt` 复制到 `~/.vim/doc` 
-
-剩下的资料夹 `autoload, lib, nerdtree_plugin, syntax` 全部复制到 `~/.vim` 底下
-
-可在 `~/.vimrc` 里配置相关设定，其他配置选项请参考官网说明
-
-```shell
-nmap :NERDTreeFind 
-let NERDTreeWinPos=1
-
-# nmap : 将F9设为开启nerdtree的快捷键
-# NERDTreeWinPos : 将nerdtree区块放在右边
-```
-
-### SrcExpl(Source Explorer)
-
-SrcExpl 可以将当下 function 的定义显示出来，或是将当下的变数宣告处显示出来
-
-使用 git 下载 plugin 档
-
-```shell
-$ git clone https://github.com/wesleyche/SrcExpl
-```
-
-将 `plugin/srcexpl.vim` 复制到 `~/.vim/plugin/`，`doc/srcexpl.txt` 复制到 `~/.vim/doc`
-
-官方网站有详细介绍在.vimrc可用的设定，这里只列出我有用到的设定
-
-```shell
-nmap :SrcExplToggle 
-let g:SrcExpl_pluginList = [ 
-\”**Tag_List**“, 
-\”*NERD_tree*” 
-\ 
-]
-
-# nmap : 将F10设为开启srcexpl的快捷键
-# 若有安装taglist or nerdtree则需输入
-```
-
-### trinity
-
-trinity 用来整合 `taglist, nerdtree, srcexpl`，使可以一键开启三个 plgin 的功能
-
-使用 git 下载 plugin 档
-
-```shell
-$ git clone https://github.com/wesleyche/Trinity
-```
-
-将 `plugin/trinity.vim` 复制到 `~/.vim/plugin/`
-
-接著设定 vimrc
-
-```shell
-nmap :TrinityToggleAll
-
-# nmap : 将F7设为一次打开taglist, nerdtree, srcexpl的快捷键
-```
-
-<img src="_asset/vim-majia.png">
 
 
 

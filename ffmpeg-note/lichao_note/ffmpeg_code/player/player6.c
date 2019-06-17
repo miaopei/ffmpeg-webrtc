@@ -21,7 +21,9 @@
 #define MAX_AUDIOQ_SIZE (5 * 16 * 1024)
 #define MAX_VIDEOQ_SIZE (5 * 256 * 1024)
 
+// AV_SYNC_THRESHOLD 10ms - 音频10ms一个包
 #define AV_SYNC_THRESHOLD 0.01
+// AV_NOSYNC_THRESHOLD 10s
 #define AV_NOSYNC_THRESHOLD 10.0
 
 #define SAMPLE_CORRECTION_PERCENT_MAX 10
@@ -66,12 +68,13 @@ typedef struct VideoState {
     double          audio_diff_threshold;
     int             audio_diff_avg_count;
 
-    double          audio_clock;
-    double          frame_timer;
-    double          frame_last_pts;
-    double          frame_last_delay;
+    double          audio_clock; // 记录音频播放的时间
+    double          frame_timer; // 记录下一次要回调的timer
+    double          frame_last_pts; // 上一次播放视频帧的pts
+    double          frame_last_delay; // 上一次播放视频帧增加的delay时间
 
-    double          video_clock; ///<pts of last decoded frame / predicted pts of next decoded frame
+    ///<pts of last decoded frame / predicted pts of next decoded frame
+    double          video_clock;  // 记录下一帧将要播放视频帧的时间
     double          video_current_pts; ///<current displayed pts (different from video_clock if frame fifos are used)
     int64_t         video_current_pts_time;  ///<time (av_gettime) at which we updated video_current_pts - used to have running video pts
 
@@ -451,6 +454,7 @@ void video_refresh_timer(void *userdata) {
 
     if(is->video_st) {
         if(is->pictq_size == 0) {
+            // 里边没有数据的话 1s 遍历一次
             schedule_refresh(is, 1);
             //fprintf(stderr, "no picture in the queue!!!\n");
         } else {
@@ -460,7 +464,7 @@ void video_refresh_timer(void *userdata) {
             is->video_current_pts = vp->pts;
             is->video_current_pts_time = av_gettime();
             delay = vp->pts - is->frame_last_pts; /* the pts from last time */
-            if(delay <= 0 || delay >= 1.0) {
+            if(delay <= 0 || delay >= 1.0) { // delay 单位 s（秒）
                 /* if incorrect delay, use previous one */
                 delay = is->frame_last_delay;
             }
@@ -470,7 +474,9 @@ void video_refresh_timer(void *userdata) {
 
             /* update delay to sync to audio if not master source */
             if(is->av_sync_type != AV_SYNC_VIDEO_MASTER) {
+                // get_master_clock 获得当前音频播放的时间（参考时间）
                 ref_clock = get_master_clock(is);
+                // 计算视频和音频的diff时间
                 diff = vp->pts - ref_clock;
 
                 /* Skip or repeat the frame. Take delay into account
@@ -478,19 +484,23 @@ void video_refresh_timer(void *userdata) {
                 sync_threshold = (delay > AV_SYNC_THRESHOLD) ? delay : AV_SYNC_THRESHOLD;
                 if(fabs(diff) < AV_NOSYNC_THRESHOLD) {
                     if(diff <= -sync_threshold) {
+                        // 视频时间在音频时间之前，应该让它快播
                         delay = 0;
                     } else if(diff >= sync_threshold) {
                         delay = 2 * delay;
                     }
                 }
             }
+            // frame_timer 系统时间
             is->frame_timer += delay;
             /* computer the REAL delay */
+            // actual_delay 走过的时间，av_gettime 当前的系统时间
             actual_delay = is->frame_timer - (av_gettime() / 1000000.0);
             if(actual_delay < 0.010) {
                 /* Really it should skip the picture instead */
                 actual_delay = 0.010;
             }
+            // 
             schedule_refresh(is, (int)(actual_delay * 1000 + 0.5));
 
             /* show the picture! 展示当前帧 */
@@ -635,6 +645,7 @@ int decode_video_thread(void *arg) {
         } else {
             pts = 0;
         }
+        // 计算当前帧秒（s）的PTS
         pts *= av_q2d(is->video_st->time_base);
 
         // Did we get a video frame?

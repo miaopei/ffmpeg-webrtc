@@ -24,11 +24,11 @@
 
 #include <stdio.h>
 
-#include "avcodec.h"
-#include "avformat.h"
-#include "swscale.h"
-#include "imgutils.h"
-#include "SDL.h"
+#include "libavcodec/avcodec.h"
+#include "libavformat/avformat.h"
+#include "libswscale/swscale.h"
+#include "libavutil/imgutils.h"
+#include "SDL2/SDL.h"
 
 
 //Refresh Event
@@ -91,7 +91,8 @@ int main(int argc, const char * argv[]) {
     struct SwsContext *img_convert_ctx;
     
     //char filepath[]="bigbuckbunny_480x272.h265";
-    char filepath[]= "/Users/angle/Desktop/FFmpeg/FFmpeg_Leixiaohua/最简单的基于FFMPEG+SDL的视频播放器/res/Titanic.ts";
+    //char filepath[]= "/Users/angle/Desktop/FFmpeg/FFmpeg_Leixiaohua/最简单的基于FFMPEG+SDL的视频播放器/res/Titanic.ts";
+    char filepath[]= "Titanic.ts";
     
     av_register_all();
     avformat_network_init();

@@ -58,7 +58,7 @@ var sockio = socketIo.listen(http_server);
 io.sockets.on('connection', (socket)=>{
 
 	socket.on('message', (room, data)=>{
-		socket.to(room).emit('message', room, data)//房间内所有人,除自己外
+		socket.to(room).emit('message', room, socket.id, data)//房间内所有人,除自己外
 	});
 
 	//该函数应该加锁
@@ -109,7 +109,7 @@ io.sockets.on('connection', (socket)=>{
 sockio.sockets.on('connection', (socket)=>{
 
 	socket.on('message', (room, data)=>{
-		sockio.in(room).emit('message', room, socket.id, data)//房间内所有人
+		socket.to(room).emit('message', room, socket.id, data)//房间内所有人
 	});
 
 	socket.on('join', (room)=> {

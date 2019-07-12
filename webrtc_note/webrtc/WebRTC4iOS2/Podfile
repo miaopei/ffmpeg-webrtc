@@ -1,0 +1,13 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+platform :ios,'11.0'
+
+use_frameworks!
+
+target 'WebRTC4iOS2' do
+
+pod 'Socket.IO-Client-Swift', '~> 13.3.0'
+pod 'GoogleWebRTC'
+pod 'MBProgressHUD'
+
+end

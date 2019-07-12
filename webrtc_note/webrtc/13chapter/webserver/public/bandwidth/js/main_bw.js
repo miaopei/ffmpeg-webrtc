@@ -394,7 +394,6 @@ function change_bw(){
 	vsender.setParameters(parameters)
 		.then(()=>{
 			bandwidth.disabled = false;	
-            console.log("Successed to set parameters!");
 		})
 		.catch(err => {
 			console.error(err)

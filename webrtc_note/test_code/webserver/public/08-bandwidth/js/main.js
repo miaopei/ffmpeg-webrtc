@@ -21,14 +21,6 @@ var pcConfig = {
   }]
 };
 
-var bitrateGraph;
-var bitrateSeries;
-
-var packetGraph;
-var packetSeries;
-
-var lastReportResult;
-
 var localStream = null;
 var remoteStream = null;
 
@@ -294,14 +286,6 @@ function getMediaStream(stream)
 	//
 	//setup connection
 	conn();
-
-    bitrateSeries = new TimelineDataSeries();
-	bitrateGraph = new TimelineGraphView('bitrateGraph', 'bitrateCanvas');
-	bitrateGraph.updateEndDate();
-
-	packetSeries = new TimelineDataSeries();
-	packetGraph = new TimelineGraphView('packetGraph', 'packetCanvas');
-	packetGraph.updateEndDate();
 }
 
 function handleError(err)
@@ -478,7 +462,7 @@ function change_bw()
     var bw = optBW.options[optBW.selectedIndex].value;
 
     var vsender = null;
-    var senders = pc.getSenders();
+    var senders = pc.getSenders(); // 获取所有的发送器
 
     senders.forEach( sender => {
         if(sender && sender.track.kind === 'video') {
@@ -488,14 +472,14 @@ function change_bw()
 
     var parameters = vsender.getParameters();
     if(!parameters.encodings) {
-        parameters.encodings=[{}];
+        return;
     }
 
     if(bw === 'unlimited') {
-        delete parameters.encodings[0].maxBitrate;
-    } else {
-        parameters.encodings[0].maxBitrate = bw * 1000;
-    }
+        return;
+    } 
+ 
+    parameters.encodings[0].maxBitrate = bw * 1000;
 
     vsender.setParameters(parameters)
         .then(()=>{
@@ -508,53 +492,6 @@ function change_bw()
 
     return;
 }
-
-// query getStats every second
-window.setInterval(() => {
-    if (!pc) {
-        return;
-    }
-
-    const sender = pc.getSenders()[0];
-    if (!sender) {
-        return;
-    }
-
-    sender.getStats()
-        .then(reports => {
-            reports.forEach(report => {
-                let bytes;
-                let packets;
-                if (report.type === 'outbound-rtp') {
-                    if (report.isRemote) {
-                        return;
-                    }
-                    const curTs = report.timestamp;
-                    bytes = report.bytesSent;
-                    packets = report.packetsSent;
-                    if (lastReportResult && lastReportResult.has(report.id)) {
-                        // calculate bitrate
-                        const bitrate = 8 * (bytes - lastReportResult.get(report.id).bytesSent) /
-                            (curTs - lastReportResult.get(report.id).timestamp);
-
-                        // append to chart
-                        bitrateSeries.addPoint(curTs, bitrate);
-                        bitrateGraph.setDataSeries([bitrateSeries]);
-                        bitrateGraph.updateEndDate();
-
-                        // calculate number of packets and append to chart
-                        packetSeries.addPoint(curTs, packets - lastReportResult.get(report.id).packetsSent);
-                        packetGraph.setDataSeries([packetSeries]);
-                        packetGraph.updateEndDate();
-                    }
-                }
-            });
-            lastReportResult = reports;
-        })
-        .catch(err =>{
-            console.log(err);
-        });
-}, 1000);
 
 btnConn.onclick = connSignalServer;
 btnLeave.onclick = leave;

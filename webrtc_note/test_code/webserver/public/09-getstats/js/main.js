@@ -21,6 +21,14 @@ var pcConfig = {
   }]
 };
 
+var bitrateGraph;
+var bitrateSeries;
+
+var packetGraph;
+var packetSeries;
+
+var lastReportResult;
+
 var localStream = null;
 var remoteStream = null;
 
@@ -286,6 +294,14 @@ function getMediaStream(stream)
 	//
 	//setup connection
 	conn();
+
+    bitrateSeries = new TimelineDataSeries();
+	bitrateGraph = new TimelineGraphView('bitrateGraph', 'bitrateCanvas');
+	bitrateGraph.updateEndDate();
+
+	packetSeries = new TimelineDataSeries();
+	packetGraph = new TimelineGraphView('packetGraph', 'packetCanvas');
+	packetGraph.updateEndDate();
 }
 
 function handleError(err)
@@ -492,6 +508,54 @@ function change_bw()
 
     return;
 }
+
+// query getStats every second
+// 设置定时器，每秒处理一次，因为计算包的流量和发送包的次数都是1秒为单位的
+window.setInterval(() => {
+    if (!pc) {
+        return;
+    }
+
+    const sender = pc.getSenders()[0]; // 此处因为只有视频所以这么用，如果有多路流，需要使用sender.track.kind来区分
+    if (!sender) {
+        return;
+    }
+
+    sender.getStats()
+        .then(reports => {
+            reports.forEach(report => {
+                let bytes;
+                let packets;
+                if (report.type === 'outbound-rtp') {
+                    if (report.isRemote) {
+                        return;
+                    }
+                    const curTs = report.timestamp;
+                    bytes = report.bytesSent;
+                    packets = report.packetsSent;
+                    if (lastReportResult && lastReportResult.has(report.id)) {
+                        // calculate bitrate
+                        const bitrate = 8 * (bytes - lastReportResult.get(report.id).bytesSent) /
+                            (curTs - lastReportResult.get(report.id).timestamp);
+
+                        // append to chart
+                        bitrateSeries.addPoint(curTs, bitrate);
+                        bitrateGraph.setDataSeries([bitrateSeries]);
+                        bitrateGraph.updateEndDate();
+
+                        // calculate number of packets and append to chart
+                        packetSeries.addPoint(curTs, packets - lastReportResult.get(report.id).packetsSent);
+                        packetGraph.setDataSeries([packetSeries]);
+                        packetGraph.updateEndDate();
+                    }
+                }
+            });
+            lastReportResult = reports;
+        })
+        .catch(err =>{
+            console.log(err);
+        });
+}, 1000);
 
 btnConn.onclick = connSignalServer;
 btnLeave.onclick = leave;

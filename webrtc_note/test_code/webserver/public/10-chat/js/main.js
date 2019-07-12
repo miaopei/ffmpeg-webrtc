@@ -164,41 +164,7 @@ function receivemsg(e)
 
 function dataChannelStateChange()
 {
-    var readyState = dc.readyState;
-    console.log('Send channel state is: ' + readyState);
-    if(readyState === 'open') {
-        sendTxt.disabled = false;
-        send.disabled = false;
-    } else {
-        sendTxt.disabled = true;
-        send.disabled = true;
-    }
-}
-
-function conn()
-{
-    socket = io.connect();
-
-    socket.on('joined', (roomid, id)=> {  // id -> 用户id
-        btnConn.disabled = true;
-        btnLeave.disabled = false;
-
-        state = 'joined';
-        
-        createPeerConnection();
-        bindTracks();
-
-        console.log('Receive joined message: roomid=' + roomid + ' userid=' + id + ' state=' + state);
-    });
-
-    socket.on('otherjoin', (roomid, id)=> {
-        if(state === 'joined_unbind') {
-            createPeerConnection();
-            bindTracks();
-        }
-
-        //create data channel for transporting non-audio/video data
-		dc = pc.createDataChannel('chat');
+    var readyState = chat');
 		dc.onmessage = receivemsg;
 		dc.onopen = dataChannelStateChange;
 		dc.onclose = dataChannelStateChange;

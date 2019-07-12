@@ -162,9 +162,48 @@ function receivemsg(e)
     }
 }
 
-function dataChannelStateChange()
-{
-    var readyState = chat');
+function dataChannelStateChange() {
+  var readyState = dc.readyState;
+  console.log('Send channel state is: ' + readyState);
+  if (readyState === 'open') {
+    sendTxt.disabled = false;
+    send.disabled = false;
+  } else {
+    sendTxt.disabled = true;
+    send.disabled = true;
+  }
+}
+
+function conn(){
+	socket = io.connect();
+
+	socket.on('joined', (roomid, id) => {
+		state = 'joined'
+
+		//如果是多人的话，第一个人不该在这里创建peerConnection
+		//都等到收到一个otherjoin时再创建
+		//所以，在这个消息里应该带当前房间的用户数
+		//
+		//create conn and bind media track
+		createPeerConnection();
+		bindTracks();
+
+		btnConn.disabled = true;
+		btnLeave.disabled = false;
+
+		console.log('receive joined message, state=', state);
+	});
+
+	socket.on('otherjoin', (roomid, id) => {
+		//如果是多人的话，每上来一个人都要创建一个新的 peerConnection
+		//
+		if(state === 'joined_unbind'){
+			createPeerConnection();
+			bindTracks();
+		}
+
+		//create data channel for transporting non-audio/video data
+		dc = pc.createDataChannel('chatchannel');
 		dc.onmessage = receivemsg;
 		dc.onopen = dataChannelStateChange;
 		dc.onclose = dataChannelStateChange;
@@ -484,14 +523,14 @@ function change_bw()
 
     var parameters = vsender.getParameters();
     if(!parameters.encodings) {
-        parameters.encodings=[{}];
+        return;
     }
 
     if(bw === 'unlimited') {
-        delete parameters.encodings[0].maxBitrate;
-    } else {
-        parameters.encodings[0].maxBitrate = bw * 1000;
-    }
+        return;
+    } 
+    
+    parameters.encodings[0].maxBitrate = bw * 1000;
 
     vsender.setParameters(parameters)
         .then(()=>{
@@ -511,12 +550,21 @@ window.setInterval(() => {
         return;
     }
 
-    const sender = pc.getSenders()[0];
-    if (!sender) {
+    var vsender = null;
+    var senders = pc.getSenders();
+
+    senders.forEach( sender => {
+        if(sender && sender.track.kind === 'video') {
+            vsender = sender;
+        } 
+    });
+
+    //const vsender = pc.getSenders()[0];
+    if (!vsender) {
         return;
     }
 
-    sender.getStats()
+    vsender.getStats()
         .then(reports => {
             reports.forEach(report => {
                 let bytes;

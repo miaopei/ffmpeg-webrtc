@@ -488,14 +488,13 @@ function change_bw()
 
     var parameters = vsender.getParameters();
     if(!parameters.encodings) {
-        parameters.encodings=[{}];
+        return;
     }
 
     if(bw === 'unlimited') {
-        delete parameters.encodings[0].maxBitrate;
-    } else {
-        parameters.encodings[0].maxBitrate = bw * 1000;
-    }
+        return;
+    } 
+    parameters.encodings[0].maxBitrate = bw * 1000;
 
     vsender.setParameters(parameters)
         .then(()=>{
@@ -515,13 +514,22 @@ window.setInterval(() => {
     if (!pc) {
         return;
     }
+    
+    var vsender = null;
+    var senders = pc.getSenders();
 
-    const sender = pc.getSenders()[0]; // 此处因为只有视频所以这么用，如果有多路流，需要使用sender.track.kind来区分
-    if (!sender) {
+    senders.forEach( sender => {
+        if(sender && sender.track.kind === 'video') {
+            vsender = sender;
+        } 
+    });
+
+    //const vsender = pc.getSenders()[0]; // 此处因为只有视频所以这么用，如果有多路流，需要使用sender.track.kind来区分
+    if (!vsender) {
         return;
     }
 
-    sender.getStats()
+    vsender.getStats()
         .then(reports => {
             reports.forEach(report => {
                 let bytes;

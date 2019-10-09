@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
 	{
 		return XError(re);
 	}
-	av_dump_format(ictx, 0, inUrl, 0);
+	av_dump_format(ictx, 0, inUrl, 0); // 最后一个 0  表示输入流
 	//////////////////////////////////////////////////////////////////////////
 
 
@@ -116,9 +116,9 @@ int main(int argc, char *argv[])
 		//复制配置信息,同于MP4
 		//re = avcodec_copy_context(out->codec, ictx->streams[i]->codec);
 		re = avcodec_parameters_copy(out->codecpar, ictx->streams[i]->codecpar);
-		out->codec->codec_tag = 0;
+		out->codec->codec_tag = 0; // 与编码相关的附加信息。在根据源码我们知道这里得设置为0。
 	}
-	av_dump_format(octx, 0, outUrl, 1);
+	av_dump_format(octx, 0, outUrl, 1); // 最后一个 0 表示输出流
 	//////////////////////////////////////////////////////////////////////////
 
 	//rtmp推流
@@ -143,6 +143,7 @@ int main(int argc, char *argv[])
 	long long startTime = av_gettime();
 	for (;;)
 	{
+        // 获取解码前数据
 		re = av_read_frame(ictx, &pkt);
 		if (re != 0 || pkt.size <= 0)
 		{
@@ -151,11 +152,18 @@ int main(int argc, char *argv[])
 		
 		cout << pkt.pts<<" " << flush;
 
-		//计算转换pts dts
+        /*
+         *  PTS（Presentation Time Stamp）显示播放时间
+         *  DTS（Decoding Time Stamp）解码时间
+         */
+
+		// 计算转换pts dts
+        // 获取时间基数
 		AVRational itime = ictx->streams[pkt.stream_index]->time_base;
 		AVRational otime = octx->streams[pkt.stream_index]->time_base;
 		pkt.pts = av_rescale_q_rnd(pkt.pts, itime, otime, (AVRounding)(AV_ROUND_NEAR_INF |AV_ROUND_NEAR_INF));
 		pkt.dts = av_rescale_q_rnd(pkt.pts, itime, otime, (AVRounding)(AV_ROUND_NEAR_INF | AV_ROUND_NEAR_INF));
+        // 到这一帧时候经历了多长时间
 		pkt.duration = av_rescale_q_rnd(pkt.duration, itime, otime, (AVRounding)(AV_ROUND_NEAR_INF | AV_ROUND_NEAR_INF));
 		pkt.pos = -1;
 		
@@ -171,16 +179,17 @@ int main(int argc, char *argv[])
 		//		av_usleep(dts-now);
 		//}
 			
-
+        //向输出上下文发送（向地址推送）
 		re = av_interleaved_write_frame(octx, &pkt);
-
 		if (re<0)
 		{
 			//XError(re);
+            printf("发送数据包出错\n");
 		}
 		//av_packet_unref(&pkt);
+        //释放
+        av_free_packet(&pkt);
 	}
-
 
 
 	cout << "file to rtmp test" << endl;
